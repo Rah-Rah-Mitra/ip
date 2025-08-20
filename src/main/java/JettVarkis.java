@@ -10,16 +10,38 @@ public class JettVarkis {
 
     public void run() {
         ui.showWelcome();
-        String input = ui.readCommand();
+        String fullCommand = ui.readCommand();
 
-        while (!input.equals("bye")) {
-            if (input.equals("list")) {
+        while (!fullCommand.equals("bye")) {
+            String[] parts = fullCommand.split(" ", 2);
+            String command = parts[0];
+
+            switch (command) {
+            case "list":
                 ui.showTasks(tasks.getTasks());
-            } else {
-                tasks.addTask(input);
-                ui.showAddedTask(input);
+                break;
+            case "mark": {
+                int taskIndex = Integer.parseInt(parts[1]) - 1;
+                Task task = tasks.getTask(taskIndex);
+                task.markAsDone();
+                ui.showMarkedTask(task);
+                break;
             }
-            input = ui.readCommand();
+            case "unmark": {
+                int taskIndex = Integer.parseInt(parts[1]) - 1;
+                Task task = tasks.getTask(taskIndex);
+                task.markAsUndone();
+                ui.showUnmarkedTask(task);
+                break;
+            }
+            default: {
+                tasks.addTask(fullCommand);
+                Task task = tasks.getTask(tasks.getTaskCount() - 1);
+                ui.showAddedTask(task, tasks.getTaskCount());
+                break;
+            }
+            }
+            fullCommand = ui.readCommand();
         }
         ui.showGoodbye();
     }
