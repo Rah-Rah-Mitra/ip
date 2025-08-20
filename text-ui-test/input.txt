@@ -7,5 +7,15 @@ event project meeting /from Mon 2pm /to 4pm
 list
 mark 2
 mark 3
-list
+todo
+deadline
+deadline task /by
+event
+event task /from
+event task /from start /to
+mark
+unmark
+mark 999
+unmark 999
+blah
 bye

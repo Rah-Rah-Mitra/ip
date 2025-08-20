@@ -44,8 +44,6 @@ public class Ui {
     }
 
     public void showError(String message) {
-        System.out.println(message);
+        System.out.println("    OOPS!!! " + message);
     }
 }
-
-

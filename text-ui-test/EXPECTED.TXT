@@ -22,8 +22,15 @@ Nice! I've marked this task as done:
   [D][X] return book (by: Sunday)
 Nice! I've marked this task as done:
   [E][X] project meeting (from: Mon 2pm to: 4pm)
-Here are the tasks in your list:
-1.[T][ ] borrow book
-2.[D][X] return book (by: Sunday)
-3.[E][X] project meeting (from: Mon 2pm to: 4pm)
+    OOPS!!! The description of a todo cannot be empty.
+    OOPS!!! The description of a deadline cannot be empty.
+    OOPS!!! The date/time of a deadline cannot be empty.
+    OOPS!!! The description of an event cannot be empty.
+    OOPS!!! The start time of an event cannot be empty.
+    OOPS!!! The end time of an event cannot be empty.
+    OOPS!!! The task number is missing.
+    OOPS!!! The task number is missing.
+    OOPS!!! Task not found.
+    OOPS!!! Task not found.
+    OOPS!!! I'm sorry, but I don't know what that means :-(
 Leaving so soon? See you next time.
