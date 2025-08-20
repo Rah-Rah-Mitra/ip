@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class TaskList {
     private final ArrayList<Task> tasks = new ArrayList<>();
@@ -15,8 +16,11 @@ public class TaskList {
         tasks.add(new Event(description, from, to));
     }
 
-    public Task getTask(int index) {
-        return tasks.get(index);
+    public Optional<Task> getTask(int index) {
+        if (index < 0 || index >= tasks.size()) {
+            return Optional.empty();
+        }
+        return Optional.of(tasks.get(index));
     }
 
     public ArrayList<Task> getTasks() {

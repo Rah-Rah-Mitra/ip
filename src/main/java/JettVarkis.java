@@ -1,3 +1,5 @@
+import java.util.Optional;
+
 public class JettVarkis {
 
     private final Ui ui;
@@ -22,37 +24,39 @@ public class JettVarkis {
                 break;
             case "mark": {
                 int taskIndex = Integer.parseInt(parts[1]) - 1;
-                Task task = tasks.getTask(taskIndex);
-                task.markAsDone();
-                ui.showMarkedTask(task);
+                tasks.getTask(taskIndex).ifPresentOrElse(task -> {
+                    task.markAsDone();
+                    ui.showMarkedTask(task);
+                }, () -> ui.showError("Task not found."));
                 break;
             }
             case "unmark": {
                 int taskIndex = Integer.parseInt(parts[1]) - 1;
-                Task task = tasks.getTask(taskIndex);
-                task.markAsUndone();
-                ui.showUnmarkedTask(task);
+                tasks.getTask(taskIndex).ifPresentOrElse(task -> {
+                    task.markAsUndone();
+                    ui.showUnmarkedTask(task);
+                }, () -> ui.showError("Task not found."));
                 break;
             }
             case "todo": {
                 tasks.addTodo(parts[1]);
-                Task task = tasks.getTask(tasks.getTaskCount() - 1);
-                ui.showAddedTask(task, tasks.getTaskCount());
+                Optional<Task> task = tasks.getTask(tasks.getTaskCount() - 1);
+                task.ifPresent(value -> ui.showAddedTask(value, tasks.getTaskCount()));
                 break;
             }
             case "deadline": {
                 String[] deadlineParts = parts[1].split(" /by ");
                 tasks.addDeadline(deadlineParts[0], deadlineParts[1]);
-                Task task = tasks.getTask(tasks.getTaskCount() - 1);
-                ui.showAddedTask(task, tasks.getTaskCount());
+                Optional<Task> task = tasks.getTask(tasks.getTaskCount() - 1);
+                task.ifPresent(value -> ui.showAddedTask(value, tasks.getTaskCount()));
                 break;
             }
             case "event": {
                 String[] eventParts = parts[1].split(" /from ");
                 String[] fromToParts = eventParts[1].split(" /to ");
                 tasks.addEvent(eventParts[0], fromToParts[0], fromToParts[1]);
-                Task task = tasks.getTask(tasks.getTaskCount() - 1);
-                ui.showAddedTask(task, tasks.getTaskCount());
+                Optional<Task> task = tasks.getTask(tasks.getTaskCount() - 1);
+                task.ifPresent(value -> ui.showAddedTask(value, tasks.getTaskCount()));
                 break;
             }
             default:
@@ -67,3 +71,4 @@ public class JettVarkis {
         new JettVarkis().run();
     }
 }
+

@@ -5,7 +5,11 @@ public class Ui {
     private final Scanner in = new Scanner(System.in);
 
     public String readCommand() {
-        return in.nextLine();
+        if (in.hasNextLine()) {
+            return in.nextLine();
+        } else {
+            return "bye";
+        }
     }
 
     public void showWelcome() {
@@ -38,4 +42,10 @@ public class Ui {
         System.out.println("OK, I've marked this task as not done yet:");
         System.out.println("  " + task);
     }
+
+    public void showError(String message) {
+        System.out.println(message);
+    }
 }
+
+
