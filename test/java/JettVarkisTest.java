@@ -41,7 +41,8 @@ public class JettVarkisTest {
 
             JettVarkis.main(new String[0]);
 
-            assertEquals(expectedOutput.trim().replaceAll("\r\n", "\n"), baos.toString().trim().replaceAll("\r\n", "\n"));
+            assertEquals(expectedOutput.trim().replaceAll("\r\n", "\n"),
+                    baos.toString().trim().replaceAll("\r\n", "\n"));
         } finally {
             System.setIn(originalIn);
             System.setOut(originalOut);
