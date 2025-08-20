@@ -34,12 +34,29 @@ public class JettVarkis {
                 ui.showUnmarkedTask(task);
                 break;
             }
-            default: {
-                tasks.addTask(fullCommand);
+            case "todo": {
+                tasks.addTodo(parts[1]);
                 Task task = tasks.getTask(tasks.getTaskCount() - 1);
                 ui.showAddedTask(task, tasks.getTaskCount());
                 break;
             }
+            case "deadline": {
+                String[] deadlineParts = parts[1].split(" /by ");
+                tasks.addDeadline(deadlineParts[0], deadlineParts[1]);
+                Task task = tasks.getTask(tasks.getTaskCount() - 1);
+                ui.showAddedTask(task, tasks.getTaskCount());
+                break;
+            }
+            case "event": {
+                String[] eventParts = parts[1].split(" /from ");
+                String[] fromToParts = eventParts[1].split(" /to ");
+                tasks.addEvent(eventParts[0], fromToParts[0], fromToParts[1]);
+                Task task = tasks.getTask(tasks.getTaskCount() - 1);
+                ui.showAddedTask(task, tasks.getTaskCount());
+                break;
+            }
+            default:
+                break;
             }
             fullCommand = ui.readCommand();
         }
