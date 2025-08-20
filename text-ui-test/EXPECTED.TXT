@@ -1,3 +1,6 @@
-Hello! I'm Jett Varkis.
-How can I assist you today?
-Bye. Hope to see you again soon!
+Jett Varkis at your service. What can I get for you?
+added: read book
+added: return book
+1. read book
+2. return book
+Leaving so soon? See you next time.
