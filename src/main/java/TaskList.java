@@ -30,4 +30,8 @@ public class TaskList {
     public int getTaskCount() {
         return tasks.size();
     }
+
+    public Task deleteTask(int index) {
+        return tasks.remove(index);
+    }
 }

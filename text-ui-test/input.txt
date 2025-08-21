@@ -1,10 +1,13 @@
 todo borrow book
+todo read novel
+todo buy groceries
 list
 mark 1
 unmark 1
 deadline return book /by Sunday
 event project meeting /from Mon 2pm /to 4pm
 list
+delete 3
 mark 2
 mark 3
 todo

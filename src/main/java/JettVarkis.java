@@ -20,72 +20,87 @@ public class JettVarkis {
                 String command = parts[0];
 
                 switch (command) {
-                case "list":
-                    ui.showTasks(tasks.getTasks());
-                    break;
-                case "mark": {
-                    if (parts.length < 2) {
-                        throw new JettVarkisException(JettVarkisException.ErrorType.MISSING_TASK_NUMBER);
+                    case "list":
+                        ui.showTasks(tasks.getTasks());
+                        break;
+                    case "mark": {
+                        if (parts.length < 2) {
+                            throw new JettVarkisException(JettVarkisException.ErrorType.MISSING_TASK_NUMBER);
+                        }
+                        int taskIndex = Integer.parseInt(parts[1]) - 1;
+                        tasks.getTask(taskIndex).ifPresentOrElse(task -> {
+                            task.markAsDone();
+                            ui.showMarkedTask(task);
+                        }, () -> ui.showError(JettVarkisException.ErrorType.TASK_NOT_FOUND.getMessage()));
+                        break;
                     }
-                    int taskIndex = Integer.parseInt(parts[1]) - 1;
-                    tasks.getTask(taskIndex).ifPresentOrElse(task -> {
-                        task.markAsDone();
-                        ui.showMarkedTask(task);
-                    }, () -> ui.showError(JettVarkisException.ErrorType.TASK_NOT_FOUND.getMessage()));
-                    break;
-                }
-                case "unmark": {
-                    if (parts.length < 2) {
-                        throw new JettVarkisException(JettVarkisException.ErrorType.MISSING_TASK_NUMBER);
+                    case "unmark": {
+                        if (parts.length < 2) {
+                            throw new JettVarkisException(JettVarkisException.ErrorType.MISSING_TASK_NUMBER);
+                        }
+                        int taskIndex = Integer.parseInt(parts[1]) - 1;
+                        tasks.getTask(taskIndex).ifPresentOrElse(task -> {
+                            task.markAsUndone();
+                            ui.showUnmarkedTask(task);
+                        }, () -> ui.showError(JettVarkisException.ErrorType.TASK_NOT_FOUND.getMessage()));
+                        break;
                     }
-                    int taskIndex = Integer.parseInt(parts[1]) - 1;
-                    tasks.getTask(taskIndex).ifPresentOrElse(task -> {
-                        task.markAsUndone();
-                        ui.showUnmarkedTask(task);
-                    }, () -> ui.showError(JettVarkisException.ErrorType.TASK_NOT_FOUND.getMessage()));
-                    break;
-                }
-                case "todo": {
-                    if (parts.length < 2) {
-                        throw new JettVarkisException(JettVarkisException.ErrorType.EMPTY_TODO_DESCRIPTION);
+                    case "todo": {
+                        if (parts.length < 2) {
+                            throw new JettVarkisException(JettVarkisException.ErrorType.EMPTY_TODO_DESCRIPTION);
+                        }
+                        tasks.addTodo(parts[1]);
+                        Optional<Task> task = tasks.getTask(tasks.getTaskCount() - 1);
+                        task.ifPresent(value -> ui.showAddedTask(value, tasks.getTaskCount()));
+                        break;
                     }
-                    tasks.addTodo(parts[1]);
-                    Optional<Task> task = tasks.getTask(tasks.getTaskCount() - 1);
-                    task.ifPresent(value -> ui.showAddedTask(value, tasks.getTaskCount()));
-                    break;
-                }
-                case "deadline": {
-                    if (parts.length < 2) {
-                        throw new JettVarkisException(JettVarkisException.ErrorType.EMPTY_DEADLINE_DESCRIPTION);
+                    case "deadline": {
+                        if (parts.length < 2) {
+                            throw new JettVarkisException(JettVarkisException.ErrorType.EMPTY_DEADLINE_DESCRIPTION);
+                        }
+                        String[] deadlineParts = parts[1].split(" /by ");
+                        if (deadlineParts.length < 2) {
+                            throw new JettVarkisException(JettVarkisException.ErrorType.EMPTY_DEADLINE_BY);
+                        }
+                        tasks.addDeadline(deadlineParts[0], deadlineParts[1]);
+                        Optional<Task> task = tasks.getTask(tasks.getTaskCount() - 1);
+                        task.ifPresent(value -> ui.showAddedTask(value, tasks.getTaskCount()));
+                        break;
                     }
-                    String[] deadlineParts = parts[1].split(" /by ");
-                    if (deadlineParts.length < 2) {
-                        throw new JettVarkisException(JettVarkisException.ErrorType.EMPTY_DEADLINE_BY);
+                    case "event": {
+                        if (parts.length < 2) {
+                            throw new JettVarkisException(JettVarkisException.ErrorType.EMPTY_EVENT_DESCRIPTION);
+                        }
+                        String[] eventParts = parts[1].split(" /from ");
+                        if (eventParts.length < 2) {
+                            throw new JettVarkisException(JettVarkisException.ErrorType.EMPTY_EVENT_FROM);
+                        }
+                        String[] fromToParts = eventParts[1].split(" /to ");
+                        if (fromToParts.length < 2) {
+                            throw new JettVarkisException(JettVarkisException.ErrorType.EMPTY_EVENT_TO);
+                        }
+                        tasks.addEvent(eventParts[0], fromToParts[0], fromToParts[1]);
+                        Optional<Task> task = tasks.getTask(tasks.getTaskCount() - 1);
+                        task.ifPresent(value -> ui.showAddedTask(value, tasks.getTaskCount()));
+                        break;
                     }
-                    tasks.addDeadline(deadlineParts[0], deadlineParts[1]);
-                    Optional<Task> task = tasks.getTask(tasks.getTaskCount() - 1);
-                    task.ifPresent(value -> ui.showAddedTask(value, tasks.getTaskCount()));
-                    break;
-                }
-                case "event": {
-                    if (parts.length < 2) {
-                        throw new JettVarkisException(JettVarkisException.ErrorType.EMPTY_EVENT_DESCRIPTION);
+                    case "delete": {
+                        if (parts.length < 2) {
+                            throw new JettVarkisException(JettVarkisException.ErrorType.MISSING_TASK_NUMBER);
+                        }
+                        try {
+                            int taskIndex = Integer.parseInt(parts[1]) - 1;
+                            Task deletedTask = tasks.deleteTask(taskIndex);
+                            ui.showDeletedTask(deletedTask, tasks.getTaskCount());
+                        } catch (NumberFormatException e) {
+                            throw new JettVarkisException(JettVarkisException.ErrorType.INVALID_TASK_NUMBER);
+                        } catch (IndexOutOfBoundsException e) {
+                            throw new JettVarkisException(JettVarkisException.ErrorType.TASK_NOT_FOUND);
+                        }
+                        break;
                     }
-                    String[] eventParts = parts[1].split(" /from ");
-                    if (eventParts.length < 2) {
-                        throw new JettVarkisException(JettVarkisException.ErrorType.EMPTY_EVENT_FROM);
-                    }
-                    String[] fromToParts = eventParts[1].split(" /to ");
-                    if (fromToParts.length < 2) {
-                        throw new JettVarkisException(JettVarkisException.ErrorType.EMPTY_EVENT_TO);
-                    }
-                    tasks.addEvent(eventParts[0], fromToParts[0], fromToParts[1]);
-                    Optional<Task> task = tasks.getTask(tasks.getTaskCount() - 1);
-                    task.ifPresent(value -> ui.showAddedTask(value, tasks.getTaskCount()));
-                    break;
-                }
-                default:
-                    throw new JettVarkisException(JettVarkisException.ErrorType.UNKNOWN_COMMAND);
+                    default:
+                        throw new JettVarkisException(JettVarkisException.ErrorType.UNKNOWN_COMMAND);
                 }
             } catch (JettVarkisException e) {
                 ui.showError(e.getMessage());

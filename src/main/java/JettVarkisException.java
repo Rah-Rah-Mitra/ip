@@ -8,6 +8,7 @@ public class JettVarkisException extends Exception {
         EMPTY_EVENT_FROM("The start time of an event cannot be empty."),
         EMPTY_EVENT_TO("The end time of an event cannot be empty."),
         MISSING_TASK_NUMBER("The task number is missing."),
+        INVALID_TASK_NUMBER("The task number provided is invalid."),
         TASK_NOT_FOUND("Task not found."),
         UNKNOWN_COMMAND("I'm sorry, but I don't know what that means :-(");
 
