@@ -4,8 +4,14 @@ todo buy groceries
 list
 mark 1
 unmark 1
-deadline return book /by Sunday
-event project meeting /from Mon 2pm /to 4pm
+deadline submit report /by 15/10/2025 2359
+deadline pay bills /by 2025-11-01
+event team meeting /from 10/10/2025 0900 /to 10/10/2025 1000
+event project review /from 2025-12-01 /to 2025-12-05
+deadline buy groceries /by 10-10-2025
+event party /from 2025/11/11 /to 2025/11/12
+deadline call mom /by tomorrow
+event dinner /from tonight /to tomorrow morning
 list
 delete 3
 mark 2
