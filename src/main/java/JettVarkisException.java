@@ -10,7 +10,9 @@ public class JettVarkisException extends Exception {
         MISSING_TASK_NUMBER("The task number is missing."),
         INVALID_TASK_NUMBER("The task number provided is invalid."),
         TASK_NOT_FOUND("Task not found."),
-        UNKNOWN_COMMAND("I'm sorry, but I don't know what that means :-(");
+        UNKNOWN_COMMAND("I'm sorry, but I don't know what that means :-("),
+        FILE_OPERATION_ERROR("Error during file operation."),
+        CORRUPTED_DATA_ERROR("Data file is corrupted.");
 
         private final String message;
 

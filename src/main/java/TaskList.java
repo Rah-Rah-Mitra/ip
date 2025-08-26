@@ -2,7 +2,15 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class TaskList {
-    private final ArrayList<Task> tasks = new ArrayList<>();
+    private ArrayList<Task> tasks;
+
+    public TaskList() {
+        this.tasks = new ArrayList<>();
+    }
+
+    public TaskList(ArrayList<Task> tasks) {
+        this.tasks = tasks;
+    }
 
     public void addTodo(String description) {
         tasks.add(new Todo(description));

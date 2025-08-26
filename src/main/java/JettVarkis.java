@@ -3,11 +3,18 @@ import java.util.Optional;
 public class JettVarkis {
 
     private final Ui ui;
-    private final TaskList tasks;
+    private TaskList tasks;
+    private final Storage storage;
 
-    public JettVarkis() {
+    public JettVarkis(String filePath) {
         ui = new Ui();
-        tasks = new TaskList();
+        storage = new Storage(filePath);
+        try {
+            tasks = new TaskList(storage.load());
+        } catch (JettVarkisException e) {
+            ui.showError(e.getMessage());
+            tasks = new TaskList();
+        }
     }
 
     public void run() {
@@ -102,6 +109,7 @@ public class JettVarkis {
                     default:
                         throw new JettVarkisException(JettVarkisException.ErrorType.UNKNOWN_COMMAND);
                 }
+                storage.save(tasks.getTasks());
             } catch (JettVarkisException e) {
                 ui.showError(e.getMessage());
             }
@@ -111,6 +119,6 @@ public class JettVarkis {
     }
 
     public static void main(String[] args) {
-        new JettVarkis().run();
+        new JettVarkis("../data/jettvarkis.txt").run();
     }
 }

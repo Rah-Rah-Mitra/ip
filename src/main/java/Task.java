@@ -23,4 +23,6 @@ public abstract class Task {
     public String toString() {
         return "[" + getStatusIcon() + "] " + description;
     }
+
+    public abstract String toFileString();
 }
