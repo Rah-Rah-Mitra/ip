@@ -1,3 +1,5 @@
+package jettvarkis.exception;
+
 public class JettVarkisException extends Exception {
 
     public enum ErrorType {
