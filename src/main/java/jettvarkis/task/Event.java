@@ -3,6 +3,9 @@ package jettvarkis.task;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Represents an Event task. An Event task has a description, a start time, and an end time.
+ */
 public class Event extends Task {
 
     protected LocalDateTime from;
@@ -10,6 +13,13 @@ public class Event extends Task {
     protected String originalFrom;
     protected String originalTo;
 
+    /**
+     * Constructs a new Event task with the given description, start time, and end time.
+     *
+     * @param description The description of the Event task.
+     * @param from The start time of the event as a LocalDateTime object.
+     * @param to The end time of the event as a LocalDateTime object.
+     */
     public Event(String description, LocalDateTime from, LocalDateTime to) {
         super(description);
         this.from = from;
@@ -18,6 +28,13 @@ public class Event extends Task {
         this.originalTo = null;
     }
 
+    /**
+     * Constructs a new Event task with the given description, start time, and end time as strings.
+     *
+     * @param description The description of the Event task.
+     * @param from The start time of the event as a string.
+     * @param to The end time of the event as a string.
+     */
     public Event(String description, String from, String to) {
         super(description);
         this.from = null;
@@ -26,6 +43,11 @@ public class Event extends Task {
         this.originalTo = to;
     }
 
+    /**
+     * Returns a string representation of the Event task for display.
+     *
+     * @return A string representing the Event task.
+     */
     @Override
     public String toString() {
         String fromStr = from != null ? from.format(DateTimeFormatter.ofPattern("MMM dd yyyy, h:mma")) : originalFrom;
@@ -33,6 +55,11 @@ public class Event extends Task {
         return "[E]" + super.toString() + " (from: " + fromStr + " to: " + toStr + ")";
     }
 
+    /**
+     * Returns a string representation of the Event task for saving to a file.
+     *
+     * @return A string representing the Event task in file format.
+     */
     @Override
     public String toFileString() {
         String fromStr = from != null ? from.toString() : originalFrom;

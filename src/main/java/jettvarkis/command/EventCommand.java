@@ -9,6 +9,9 @@ import jettvarkis.storage.Storage;
 import jettvarkis.exception.JettVarkisException;
 import jettvarkis.task.Task;
 
+/**
+ * Represents an Event command. This command adds a new Event task to the list.
+ */
 public class EventCommand extends Command {
 
     private final String description;
@@ -18,6 +21,13 @@ public class EventCommand extends Command {
     private final String originalTo;
     private final boolean showWarning;
 
+    /**
+     * Constructs an EventCommand with the specified description, start time, and end time as LocalDateTime objects.
+     *
+     * @param description The description of the Event task.
+     * @param from The start time of the event.
+     * @param to The end time of the event.
+     */
     public EventCommand(String description, LocalDateTime from, LocalDateTime to) {
         this.description = description;
         this.from = from;
@@ -27,6 +37,13 @@ public class EventCommand extends Command {
         this.showWarning = false;
     }
 
+    /**
+     * Constructs an EventCommand with the specified description, start time, and end time as strings.
+     *
+     * @param description The description of the Event task.
+     * @param from The start time of the event as a string.
+     * @param to The end time of the event as a string.
+     */
     public EventCommand(String description, String from, String to) {
         this.description = description;
         this.from = null;
@@ -36,6 +53,14 @@ public class EventCommand extends Command {
         this.showWarning = false;
     }
 
+    /**
+     * Constructs an EventCommand with the specified description, start time, end time as strings, and a warning flag.
+     *
+     * @param description The description of the Event task.
+     * @param from The start time of the event as a string.
+     * @param to The end time of the event as a string.
+     * @param showWarning A boolean indicating whether to show a warning about date format.
+     */
     public EventCommand(String description, String from, String to, boolean showWarning) {
         this.description = description;
         this.from = null;
@@ -45,6 +70,17 @@ public class EventCommand extends Command {
         this.showWarning = showWarning;
     }
 
+    /**
+     * Executes the Event command.
+     * Adds a new Event task to the task list, displays a confirmation message to the user,
+     * and saves the updated task list to storage.
+     * If a warning is flagged, it displays a date format warning to the user.
+     *
+     * @param ui The Ui object to interact with the user.
+     * @param tasks The TaskList object to add the task to.
+     * @param storage The Storage object to save the tasks.
+     * @throws JettVarkisException If there is an error during execution (e.g., storage error).
+     */
     @Override
     public void execute(Ui ui, TaskList tasks, Storage storage) throws JettVarkisException {
         if (showWarning) {
