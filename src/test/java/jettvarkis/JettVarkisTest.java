@@ -23,15 +23,6 @@ public class JettVarkisTest {
         }
     }
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.PrintStream;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-public class JettVarkisTest {
-
     @Test
     public void testJettVarkis() {
         String input = "todo borrow book\n" +
@@ -41,15 +32,15 @@ public class JettVarkisTest {
                 "bye\n";
 
         String expectedOutput = "Jett Varkis at your service. What can I get for you?\n" +
-                "Got it. I've added this task:\n" +
+                "Got it. I\'ve added this task:\n" +
                 "  [T][ ] borrow book\n" +
                 "Now you have 1 tasks in the list.\n" +
                 "Here are the tasks in your list:\n" +
                 "1.[T][ ] borrow book\n" +
-                "Got it. I've added this task:\n" +
+                "Got it. I\'ve added this task:\n" +
                 "  [D][ ] return book (by: Sunday)\n" +
                 "Now you have 2 tasks in the list.\n" +
-                "Got it. I've added this task:\n" +
+                "Got it. I\'ve added this task:\n" +
                 "  [E][ ] project meeting (from: Mon 2pm to: 4pm)\n" +
                 "Now you have 3 tasks in the list.\n" +
                 "Leaving so soon? See you next time.\n";
