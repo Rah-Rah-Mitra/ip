@@ -24,6 +24,14 @@ public class TaskList {
         tasks.add(new Event(description, from, to));
     }
 
+    public void addDeadline(String description, java.time.LocalDateTime by) {
+        tasks.add(new Deadline(description, by));
+    }
+
+    public void addEvent(String description, java.time.LocalDateTime from, java.time.LocalDateTime to) {
+        tasks.add(new Event(description, from, to));
+    }
+
     public Optional<Task> getTask(int index) {
         if (index < 0 || index >= tasks.size()) {
             return Optional.empty();

@@ -3,6 +3,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 
 public class Storage {
 
@@ -59,13 +61,38 @@ public class Storage {
                 if (parts.length < 4) {
                     throw new JettVarkisException(JettVarkisException.ErrorType.CORRUPTED_DATA_ERROR);
                 }
-                task = new Deadline(description, parts[3]);
+                String byString = parts[3];
+                try {
+                    LocalDateTime byDateTime = LocalDateTime.parse(byString);
+                    task = new Deadline(description, byDateTime);
+                } catch (DateTimeParseException e) {
+                    task = new Deadline(description, byString);
+                }
                 break;
             case "E":
                 if (parts.length < 5) {
                     throw new JettVarkisException(JettVarkisException.ErrorType.CORRUPTED_DATA_ERROR);
                 }
-                task = new Event(description, parts[3], parts[4]);
+                String fromString = parts[3];
+                String toString = parts[4];
+                LocalDateTime fromDateTime = null;
+                LocalDateTime toDateTime = null;
+                try {
+                    fromDateTime = LocalDateTime.parse(fromString);
+                } catch (DateTimeParseException e) {
+                    // Keep fromDateTime as null, use original string
+                }
+                try {
+                    toDateTime = LocalDateTime.parse(toString);
+                } catch (DateTimeParseException e) {
+                    // Keep toDateTime as null, use original string
+                }
+
+                if (fromDateTime != null && toDateTime != null) {
+                    task = new Event(description, fromDateTime, toDateTime);
+                } else {
+                    task = new Event(description, fromString, toString);
+                }
                 break;
             default:
                 throw new JettVarkisException(JettVarkisException.ErrorType.CORRUPTED_DATA_ERROR);
