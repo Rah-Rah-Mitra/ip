@@ -1,3 +1,11 @@
+package jettvarkis.command;
+
+import jettvarkis.ui.Ui;
+import jettvarkis.TaskList;
+import jettvarkis.storage.Storage;
+import jettvarkis.exception.JettVarkisException;
+import jettvarkis.task.Task;
+
 public class DeleteCommand extends Command {
 
     private final int taskIndex;
