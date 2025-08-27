@@ -1,5 +1,12 @@
+package jettvarkis;
+
 import java.util.ArrayList;
 import java.util.Optional;
+
+import jettvarkis.task.Task;
+import jettvarkis.task.Todo;
+import jettvarkis.task.Deadline;
+import jettvarkis.task.Event;
 
 public class TaskList {
     private ArrayList<Task> tasks;

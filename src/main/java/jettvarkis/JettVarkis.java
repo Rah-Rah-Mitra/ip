@@ -1,3 +1,11 @@
+package jettvarkis;
+
+import jettvarkis.ui.Ui;
+import jettvarkis.storage.Storage;
+import jettvarkis.exception.JettVarkisException;
+import jettvarkis.command.Command;
+import jettvarkis.parser.Parser;
+
 public class JettVarkis {
 
     private final Ui ui;
