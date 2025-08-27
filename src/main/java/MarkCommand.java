@@ -1,0 +1,19 @@
+import java.util.Optional;
+
+public class MarkCommand extends Command {
+
+    private final int taskIndex;
+
+    public MarkCommand(int taskIndex) {
+        this.taskIndex = taskIndex;
+    }
+
+    @Override
+    public void execute(Ui ui, TaskList tasks, Storage storage) throws JettVarkisException {
+        tasks.getTask(taskIndex).ifPresentOrElse(task -> {
+            task.markAsDone();
+            ui.showMarkedTask(task);
+        }, () -> ui.showError(JettVarkisException.ErrorType.TASK_NOT_FOUND.getMessage()));
+        storage.save(tasks.getTasks());
+    }
+}
