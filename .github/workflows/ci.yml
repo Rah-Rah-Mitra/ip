@@ -20,15 +20,9 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Download JUnit Platform Console Standalone
-      run: |
-        mkdir -p lib
-        curl -L -o lib/junit-platform-console-standalone-1.9.2.jar https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.9.2/junit-platform-console-standalone-1.9.2.jar
-
-    - name: Compile
-      run: |
-        javac -cp lib/junit-platform-console-standalone-1.9.2.jar -d out src/main/java/*.java test/java/*.java
-
-    - name: Test
-      run: |
-        java -jar lib/junit-platform-console-standalone-1.9.2.jar -cp out --scan-class-path
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+    - name: Build with Gradle
+      run: ./gradlew build
+    - name: Run tests with Gradle
+      run: ./gradlew test
