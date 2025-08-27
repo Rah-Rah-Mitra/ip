@@ -1,5 +1,9 @@
+package jettvarkis.ui;
+
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import jettvarkis.task.Task;
 
 public class Ui {
     private final Scanner in = new Scanner(System.in);

@@ -1,4 +1,10 @@
 
+package jettvarkis.command;
+
+import jettvarkis.ui.Ui;
+import jettvarkis.TaskList;
+import jettvarkis.storage.Storage;
+
 public class ByeCommand extends Command {
 
     @Override
