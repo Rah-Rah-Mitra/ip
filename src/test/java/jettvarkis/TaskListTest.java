@@ -38,7 +38,8 @@ public class TaskListTest {
         taskList.addEvent("project meeting", "2025-08-27 1400", "2025-08-27 1600");
         assertEquals(1, taskList.getTaskCount());
         assertTrue(taskList.getTask(0).get() instanceof Event);
-        assertEquals("[E][ ] project meeting (from: 2025-08-27 1400 to: 2025-08-27 1600)", taskList.getTask(0).get().toString());
+        assertEquals("[E][ ] project meeting (from: 2025-08-27 1400 to: 2025-08-27 1600)",
+                taskList.getTask(0).get().toString());
     }
 
     @Test
