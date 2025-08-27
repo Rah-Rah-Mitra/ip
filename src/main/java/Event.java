@@ -8,7 +8,6 @@ public class Event extends Task {
     protected String originalFrom;
     protected String originalTo;
 
-
     public Event(String description, LocalDateTime from, LocalDateTime to) {
         super(description);
         this.from = from;

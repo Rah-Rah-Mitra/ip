@@ -14,4 +14,3 @@ public class Todo extends Task {
         return "T | " + (isDone ? "1" : "0") + " | " + description;
     }
 }
-

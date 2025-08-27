@@ -12,24 +12,24 @@ public class Parser {
         String content = parts.length > 1 ? parts[1] : null;
 
         switch (command) {
-            case "bye":
-                return new ByeCommand();
-            case "list":
-                return new ListCommand();
-            case "mark":
-                return parseMarkCommand(content);
-            case "unmark":
-                return parseUnmarkCommand(content);
-            case "todo":
-                return parseTodoCommand(content);
-            case "deadline":
-                return parseDeadlineCommand(content);
-            case "event":
-                return parseEventCommand(content);
-            case "delete":
-                return parseDeleteCommand(content);
-            default:
-                throw new JettVarkisException(JettVarkisException.ErrorType.UNKNOWN_COMMAND);
+        case "bye":
+            return new ByeCommand();
+        case "list":
+            return new ListCommand();
+        case "mark":
+            return parseMarkCommand(content);
+        case "unmark":
+            return parseUnmarkCommand(content);
+        case "todo":
+            return parseTodoCommand(content);
+        case "deadline":
+            return parseDeadlineCommand(content);
+        case "event":
+            return parseEventCommand(content);
+        case "delete":
+            return parseDeleteCommand(content);
+        default:
+            throw new JettVarkisException(JettVarkisException.ErrorType.UNKNOWN_COMMAND);
         }
     }
 
@@ -103,8 +103,8 @@ public class Parser {
             LocalDateTime toDateTime = parseDateTime(to);
             return new EventCommand(description, fromDateTime, toDateTime);
         } catch (DateTimeParseException e) {
-            boolean showWarning = (from.matches(".*\\d.*") && (from.contains("/") || from.contains("-"))) || 
-                                (to.matches(".*\\d.*") && (to.contains("/") || to.contains("-")));
+            boolean showWarning = (from.matches(".*\\d.*") && (from.contains("/") || from.contains("-"))) ||
+                    (to.matches(".*\\d.*") && (to.contains("/") || to.contains("-")));
             return new EventCommand(description, from, to, showWarning);
         }
     }
@@ -129,48 +129,48 @@ public class Parser {
 
         Task task;
         switch (type) {
-            case "T":
-                task = new Todo(description);
-                break;
-            case "D":
-                if (parts.length < 4) {
-                    throw new JettVarkisException(JettVarkisException.ErrorType.CORRUPTED_DATA_ERROR);
-                }
-                String byString = parts[3];
-                try {
-                    LocalDateTime byDateTime = LocalDateTime.parse(byString);
-                    task = new Deadline(description, byDateTime);
-                } catch (DateTimeParseException e) {
-                    task = new Deadline(description, byString);
-                }
-                break;
-            case "E":
-                if (parts.length < 5) {
-                    throw new JettVarkisException(JettVarkisException.ErrorType.CORRUPTED_DATA_ERROR);
-                }
-                String fromString = parts[3];
-                String toString = parts[4];
-                LocalDateTime fromDateTime = null;
-                LocalDateTime toDateTime = null;
-                try {
-                    fromDateTime = LocalDateTime.parse(fromString);
-                } catch (DateTimeParseException e) {
-                    // Keep fromDateTime as null, use original string
-                }
-                try {
-                    toDateTime = LocalDateTime.parse(toString);
-                } catch (DateTimeParseException e) {
-                    // Keep toDateTime as null, use original string
-                }
-
-                if (fromDateTime != null && toDateTime != null) {
-                    task = new Event(description, fromDateTime, toDateTime);
-                } else {
-                    task = new Event(description, fromString, toString);
-                }
-                break;
-            default:
+        case "T":
+            task = new Todo(description);
+            break;
+        case "D":
+            if (parts.length < 4) {
                 throw new JettVarkisException(JettVarkisException.ErrorType.CORRUPTED_DATA_ERROR);
+            }
+            String byString = parts[3];
+            try {
+                LocalDateTime byDateTime = LocalDateTime.parse(byString);
+                task = new Deadline(description, byDateTime);
+            } catch (DateTimeParseException e) {
+                task = new Deadline(description, byString);
+            }
+            break;
+        case "E":
+            if (parts.length < 5) {
+                throw new JettVarkisException(JettVarkisException.ErrorType.CORRUPTED_DATA_ERROR);
+            }
+            String fromString = parts[3];
+            String toString = parts[4];
+            LocalDateTime fromDateTime = null;
+            LocalDateTime toDateTime = null;
+            try {
+                fromDateTime = LocalDateTime.parse(fromString);
+            } catch (DateTimeParseException e) {
+                // Keep fromDateTime as null, use original string
+            }
+            try {
+                toDateTime = LocalDateTime.parse(toString);
+            } catch (DateTimeParseException e) {
+                // Keep toDateTime as null, use original string
+            }
+
+            if (fromDateTime != null && toDateTime != null) {
+                task = new Event(description, fromDateTime, toDateTime);
+            } else {
+                task = new Event(description, fromString, toString);
+            }
+            break;
+        default:
+            throw new JettVarkisException(JettVarkisException.ErrorType.CORRUPTED_DATA_ERROR);
         }
 
         if (isDone) {
@@ -184,8 +184,7 @@ public class Parser {
                 DateTimeFormatter.ofPattern("d/M/yyyy HHmm"),
                 DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"),
                 DateTimeFormatter.ofPattern("d/M/yyyy"),
-                DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        );
+                DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
         for (DateTimeFormatter formatter : formatters) {
             try {
