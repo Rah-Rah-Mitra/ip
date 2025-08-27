@@ -1,7 +1,15 @@
 package jettvarkis.exception;
 
+/**
+ * Represents an exception specific to the JettVarkis application.
+ * This exception is used to handle various error conditions within the application.
+ */
 public class JettVarkisException extends Exception {
 
+    /**
+     * Enumerates the types of errors that can occur in the JettVarkis application.
+     * Each error type has an associated message.
+     */
     public enum ErrorType {
         EMPTY_TODO_DESCRIPTION("The description of a todo cannot be empty."), EMPTY_DEADLINE_DESCRIPTION(
                 "The description of a deadline cannot be empty."), EMPTY_DEADLINE_BY(
@@ -18,10 +26,20 @@ public class JettVarkisException extends Exception {
 
         private final String message;
 
+        /**
+         * Constructs an ErrorType with the given message.
+         *
+         * @param message The error message.
+         */
         ErrorType(String message) {
             this.message = message;
         }
 
+        /**
+         * Returns the error message associated with this ErrorType.
+         *
+         * @return The error message.
+         */
         public String getMessage() {
             return message;
         }
@@ -29,11 +47,22 @@ public class JettVarkisException extends Exception {
 
     private final ErrorType errorType;
 
+    /**
+     * Constructs a new JettVarkisException with the specified error type.
+     * The exception's message is derived from the ErrorType.
+     *
+     * @param errorType The type of error that occurred.
+     */
     public JettVarkisException(ErrorType errorType) {
         super(errorType.getMessage());
         this.errorType = errorType;
     }
 
+    /**
+     * Returns the type of error associated with this exception.
+     *
+     * @return The ErrorType of the exception.
+     */
     public ErrorType getErrorType() {
         return errorType;
     }
