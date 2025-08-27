@@ -1,4 +1,27 @@
+package jettvarkis;
+
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.io.File;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class JettVarkisTest {
+
+    private static final String FILE_PATH = "data/jettvarkis.txt";
+
+    @BeforeEach
+    public void setUp() {
+        File file = new File(FILE_PATH);
+        if (file.exists()) {
+            file.delete();
+        }
+    }
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
