@@ -16,6 +16,10 @@ list
 delete 3
 mark 2
 mark 3
+find book
+find groceries
+find meeting
+find non_existent_task
 todo
 deadline
 deadline task /by
