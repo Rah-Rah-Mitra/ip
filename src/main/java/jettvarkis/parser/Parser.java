@@ -15,6 +15,7 @@ import jettvarkis.command.ListCommand;
 import jettvarkis.command.MarkCommand;
 import jettvarkis.command.TodoCommand;
 import jettvarkis.command.UnmarkCommand;
+import jettvarkis.command.FindCommand;
 import jettvarkis.exception.JettVarkisException;
 import jettvarkis.task.Deadline;
 import jettvarkis.task.Event;
@@ -45,6 +46,11 @@ public class Parser {
             return parseEventCommand(content);
         case "delete":
             return parseDeleteCommand(content);
+        case "find":
+            if (content == null || content.trim().isEmpty()) {
+                throw new JettVarkisException(JettVarkisException.ErrorType.EMPTY_FIND_KEYWORD);
+            }
+            return new FindCommand(content.trim());
         default:
             throw new JettVarkisException(JettVarkisException.ErrorType.UNKNOWN_COMMAND);
         }

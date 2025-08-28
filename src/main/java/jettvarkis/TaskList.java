@@ -2,6 +2,7 @@ package jettvarkis;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.List;
 
 import jettvarkis.task.Task;
 import jettvarkis.task.Todo;
@@ -52,6 +53,16 @@ public class TaskList {
 
     public int getTaskCount() {
         return tasks.size();
+    }
+
+    public List<Task> findTasks(String keyword) {
+        ArrayList<Task> foundTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.toString().toLowerCase().contains(keyword.toLowerCase())) {
+                foundTasks.add(task);
+            }
+        }
+        return foundTasks;
     }
 
     public Task deleteTask(int index) {
