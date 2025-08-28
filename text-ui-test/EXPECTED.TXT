@@ -61,6 +61,13 @@ Nice! I've marked this task as done:
   [T][X] read novel
 Nice! I've marked this task as done:
   [D][X] submit report (by: Oct 15 2025, 12:00am)
+Here are the matching tasks in your list:
+  1.[T][ ] borrow book
+Here are the matching tasks in your list:
+  1.[D][ ] buy groceries (by: 10-10-2025)
+Here are the matching tasks in your list:
+  1.[E][ ] team meeting (from: Oct 10 2025, 12:00am to: Oct 10 2025, 12:00am)
+No matching tasks found in your list: Jett Varkis is sad.
     OOPS!!! The description of a todo cannot be empty.
     OOPS!!! The description of a deadline cannot be empty.
     OOPS!!! The date/time of a deadline cannot be empty.

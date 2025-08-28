@@ -13,13 +13,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class JettVarkisTest {
 
-    private static final String FILE_PATH = "data/jettvarkis.txt";
+    private static final String FILE_PATH = "../data/jettvarkis.txt";
 
     @BeforeEach
     public void setUp() {
-        File file = new File(FILE_PATH);
-        if (file.exists()) {
-            file.delete();
+        File dataDir = new File("data");
+        if (dataDir.exists()) {
+            deleteDirectory(dataDir);
         }
     }
 
@@ -32,15 +32,15 @@ public class JettVarkisTest {
                 "bye\n";
 
         String expectedOutput = "Jett Varkis at your service. What can I get for you?\n" +
-                "Got it. I\'ve added this task:\n" +
+                "Got it. I've added this task:\n" +
                 "  [T][ ] borrow book\n" +
                 "Now you have 1 tasks in the list.\n" +
                 "Here are the tasks in your list:\n" +
                 "1.[T][ ] borrow book\n" +
-                "Got it. I\'ve added this task:\n" +
+                "Got it. I've added this task:\n" +
                 "  [D][ ] return book (by: Sunday)\n" +
                 "Now you have 2 tasks in the list.\n" +
-                "Got it. I\'ve added this task:\n" +
+                "Got it. I've added this task:\n" +
                 "  [E][ ] project meeting (from: Mon 2pm to: 4pm)\n" +
                 "Now you have 3 tasks in the list.\n" +
                 "Leaving so soon? See you next time.\n";
@@ -55,11 +55,23 @@ public class JettVarkisTest {
 
             JettVarkis.main(new String[0]);
 
-            assertEquals(expectedOutput.trim().replaceAll("\r\n", "\n"),
-                    baos.toString().trim().replaceAll("\r\n", "\n"));
+            assertEquals(expectedOutput.trim().replaceAll("\\r\\n", "\n"),
+                    baos.toString().trim().replaceAll("\\r\\n", "\n"));
         } finally {
             System.setIn(originalIn);
             System.setOut(originalOut);
         }
+    }
+
+    private void deleteDirectory(File directory) {
+        if (directory.isDirectory()) {
+            File[] files = directory.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    deleteDirectory(file);
+                }
+            }
+        }
+        directory.delete();
     }
 }

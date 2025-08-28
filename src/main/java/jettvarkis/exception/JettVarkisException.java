@@ -2,7 +2,8 @@ package jettvarkis.exception;
 
 /**
  * Represents an exception specific to the JettVarkis application.
- * This exception is used to handle various error conditions within the application.
+ * This exception is used to handle various error conditions within the
+ * application.
  */
 public class JettVarkisException extends Exception {
 
@@ -30,6 +31,8 @@ public class JettVarkisException extends Exception {
                 "Task not found."),
         UNKNOWN_COMMAND(
                 "I'm sorry, but I don't know what that means :-("),
+        EMPTY_FIND_KEYWORD(
+                "The keyword for find command cannot be empty."),
         FILE_OPERATION_ERROR(
                 "Error during file operation."),
         CORRUPTED_DATA_ERROR(
@@ -40,7 +43,8 @@ public class JettVarkisException extends Exception {
         /**
          * Constructs an ErrorType with the given message.
          *
-         * @param message The error message.
+         * @param message
+         *            The error message.
          */
         ErrorType(String message) {
             this.message = message;
@@ -62,7 +66,8 @@ public class JettVarkisException extends Exception {
      * Constructs a new JettVarkisException with the specified error type.
      * The exception's message is derived from the ErrorType.
      *
-     * @param errorType The type of error that occurred.
+     * @param errorType
+     *            The type of error that occurred.
      */
     public JettVarkisException(ErrorType errorType) {
         super(errorType.getMessage());

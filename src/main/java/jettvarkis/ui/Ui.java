@@ -2,6 +2,7 @@ package jettvarkis.ui;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.List;
 
 import jettvarkis.task.Task;
 
@@ -102,5 +103,16 @@ public class Ui {
      */
     public void showError(String message) {
         System.out.println("    OOPS!!! " + message);
+    }
+
+    public void showFoundTasks(List<Task> tasks) {
+        if (tasks.isEmpty()) {
+            System.out.println("No matching tasks found in your list: Jett Varkis is sad.");
+        } else {
+            System.out.println("Here are the matching tasks in your list:");
+            for (int i = 0; i < tasks.size(); i++) {
+                System.out.println("  " + (i + 1) + "." + tasks.get(i));
+            }
+        }
     }
 }
