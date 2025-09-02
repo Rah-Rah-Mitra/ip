@@ -1,7 +1,6 @@
 package jettvarkis.ui;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.List;
 
 import jettvarkis.task.Task;
@@ -11,20 +10,6 @@ import jettvarkis.task.Task;
  * Handles all interactions with the user, including reading commands and displaying messages.
  */
 public class Ui {
-    private final Scanner in = new Scanner(System.in);
-
-    /**
-     * Reads a command from the user input.
-     *
-     * @return The command string entered by the user.
-     */
-    public String readCommand() {
-        if (in.hasNextLine()) {
-            return in.nextLine();
-        } else {
-            return "bye";
-        }
-    }
 
     /**
      * Displays a welcome message to the user.
