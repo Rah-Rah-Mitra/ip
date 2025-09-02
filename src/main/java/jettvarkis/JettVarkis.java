@@ -1,10 +1,10 @@
 package jettvarkis;
 
-import jettvarkis.ui.Ui;
-import jettvarkis.storage.Storage;
-import jettvarkis.exception.JettVarkisException;
 import jettvarkis.command.Command;
+import jettvarkis.exception.JettVarkisException;
 import jettvarkis.parser.Parser;
+import jettvarkis.storage.Storage;
+import jettvarkis.ui.Ui;
 
 /**
  * Represents the main class of the JettVarkis application.
@@ -30,38 +30,32 @@ public class JettVarkis {
         try {
             tasks = new TaskList(storage.load());
         } catch (JettVarkisException e) {
-            ui.showError(e.getMessage());
+            // Error should be handled by the GUI
             tasks = new TaskList();
         }
     }
 
     /**
-     * Runs the JettVarkis application.
-     * Displays a welcome message, reads user commands, parses them,
-     * executes the corresponding actions, and handles exceptions.
-     * The application continues to run until an exit command is received.
-     */
-    public void run() {
-        ui.showWelcome();
-        boolean isExit = false;
-        while (!isExit) {
-            try {
-                String fullCommand = ui.readCommand();
-                Command c = Parser.parse(fullCommand);
-                c.execute(ui, tasks, storage);
-                isExit = c.isExit();
-            } catch (JettVarkisException e) {
-                ui.showError(e.getMessage());
-            }
-        }
-    }
-
-    /**
-     * The main method to start the JettVarkis application.
+     * Creates a response to user input.
      *
-     * @param args Command line arguments (not used).
+     * @param input The user input string.
+     * @return The response from the chatbot.
      */
-    public static void main(String[] args) {
-        new JettVarkis("../data/jettvarkis.txt").run();
+    public String getResponse(String input) {
+        try {
+            java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
+            java.io.PrintStream ps = new java.io.PrintStream(baos);
+            java.io.PrintStream old = System.out;
+            System.setOut(ps);
+
+            Command c = Parser.parse(input);
+            c.execute(ui, tasks, storage);
+
+            System.out.flush();
+            System.setOut(old);
+            return baos.toString();
+        } catch (JettVarkisException e) {
+            return e.getMessage();
+        }
     }
 }
