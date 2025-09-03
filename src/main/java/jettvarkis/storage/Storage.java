@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import jettvarkis.task.Task;
 import jettvarkis.exception.JettVarkisException;
 import jettvarkis.parser.Parser;
+import jettvarkis.task.Task;
 
 /**
  * Handles the loading and saving of tasks to and from a file.
@@ -20,7 +20,8 @@ public class Storage {
     /**
      * Constructs a new Storage object with the specified file path.
      *
-     * @param filePath The path to the file where tasks will be stored.
+     * @param filePath
+     *            The path to the file where tasks will be stored.
      */
     public Storage(String filePath) {
         this.filePath = filePath;
@@ -31,7 +32,9 @@ public class Storage {
      * If the file does not exist, it attempts to create it.
      *
      * @return An ArrayList of tasks loaded from the file.
-     * @throws JettVarkisException If there is an error reading from the file or the data is corrupted.
+     * @throws JettVarkisException
+     *             If there is an error reading from the file or the data is
+     *             corrupted.
      */
     public ArrayList<Task> load() throws JettVarkisException {
         ArrayList<Task> tasks = new ArrayList<>();
@@ -68,8 +71,10 @@ public class Storage {
     /**
      * Saves the given list of tasks to the storage file.
      *
-     * @param tasks The ArrayList of tasks to be saved.
-     * @throws JettVarkisException If there is an error writing to the file.
+     * @param tasks
+     *            The ArrayList of tasks to be saved.
+     * @throws JettVarkisException
+     *             If there is an error writing to the file.
      */
     public void save(ArrayList<Task> tasks) throws JettVarkisException {
         try (FileWriter writer = new FileWriter(filePath)) {

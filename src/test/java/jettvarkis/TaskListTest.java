@@ -1,17 +1,16 @@
 package jettvarkis;
 
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import jettvarkis.task.Task;
-import jettvarkis.task.Todo;
+import java.util.Optional;
+
+import org.junit.jupiter.api.Test;
+
 import jettvarkis.task.Deadline;
 import jettvarkis.task.Event;
-
-import java.util.ArrayList;
-import java.util.Optional;
+import jettvarkis.task.Task;
 
 public class TaskListTest {
 
