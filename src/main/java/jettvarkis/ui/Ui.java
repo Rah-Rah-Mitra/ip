@@ -7,7 +7,8 @@ import jettvarkis.task.Task;
 
 /**
  * Represents the User Interface of the JettVarkis application.
- * Handles all interactions with the user, including reading commands and displaying messages.
+ * Handles all interactions with the user, including reading commands and
+ * displaying messages.
  */
 public class Ui {
 
@@ -28,8 +29,10 @@ public class Ui {
     /**
      * Displays a message indicating that a task has been added.
      *
-     * @param task The task that was added.
-     * @param taskCount The total number of tasks in the list after addition.
+     * @param task
+     *            The task that was added.
+     * @param taskCount
+     *            The total number of tasks in the list after addition.
      */
     public void showAddedTask(Task task, int taskCount) {
         System.out.println("Got it. I've added this task:");
@@ -40,7 +43,8 @@ public class Ui {
     /**
      * Displays all tasks in the list.
      *
-     * @param tasks The ArrayList of tasks to be displayed.
+     * @param tasks
+     *            The ArrayList of tasks to be displayed.
      */
     public void showTasks(ArrayList<Task> tasks) {
         System.out.println("Here are the tasks in your list:");
@@ -52,7 +56,8 @@ public class Ui {
     /**
      * Displays a message indicating that a task has been marked as done.
      *
-     * @param task The task that was marked.
+     * @param task
+     *            The task that was marked.
      */
     public void showMarkedTask(Task task) {
         System.out.println("Nice! I've marked this task as done:");
@@ -62,7 +67,8 @@ public class Ui {
     /**
      * Displays a message indicating that a task has been marked as not done.
      *
-     * @param task The task that was unmarked.
+     * @param task
+     *            The task that was unmarked.
      */
     public void showUnmarkedTask(Task task) {
         System.out.println("OK, I've marked this task as not done yet:");
@@ -72,8 +78,10 @@ public class Ui {
     /**
      * Displays a message indicating that a task has been deleted.
      *
-     * @param task The task that was deleted.
-     * @param taskCount The total number of tasks in the list after deletion.
+     * @param task
+     *            The task that was deleted.
+     * @param taskCount
+     *            The total number of tasks in the list after deletion.
      */
     public void showDeletedTask(Task task, int taskCount) {
         System.out.println("Noted. I've removed this task:");
@@ -84,12 +92,19 @@ public class Ui {
     /**
      * Displays an error message to the user.
      *
-     * @param message The error message to be displayed.
+     * @param message
+     *            The error message to be displayed.
      */
     public void showError(String message) {
         System.out.println("    OOPS!!! " + message);
     }
 
+    /**
+     * Displays the list of tasks found by the find command.
+     *
+     * @param tasks
+     *            The list of tasks found.
+     */
     public void showFoundTasks(List<Task> tasks) {
         if (tasks.isEmpty()) {
             System.out.println("No matching tasks found in your list: Jett Varkis is sad.");
