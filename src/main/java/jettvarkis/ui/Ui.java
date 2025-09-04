@@ -56,36 +56,42 @@ public class Ui {
     /**
      * Displays a message indicating that a task has been marked as done.
      *
-     * @param task
-     *            The task that was marked.
+     * @param markedTasks
+     *            The list of tasks that were marked.
      */
-    public void showMarkedTask(Task task) {
-        System.out.println("Nice! I've marked this task as done:");
-        System.out.println("  " + task);
+    public void showMarkedTasks(List<Task> markedTasks) {
+        System.out.println("Nice! I've marked the following tasks as done:");
+        for (Task task : markedTasks) {
+            System.out.println("  " + task);
+        }
     }
 
     /**
      * Displays a message indicating that a task has been marked as not done.
      *
-     * @param task
-     *            The task that was unmarked.
+     * @param unmarkedTasks
+     *            The list of tasks that were unmarked.
      */
-    public void showUnmarkedTask(Task task) {
-        System.out.println("OK, I've marked this task as not done yet:");
-        System.out.println("  " + task);
+    public void showUnmarkedTasks(List<Task> unmarkedTasks) {
+        System.out.println("OK, I've marked the following tasks as not done yet:");
+        for (Task task : unmarkedTasks) {
+            System.out.println("  " + task);
+        }
     }
 
     /**
      * Displays a message indicating that a task has been deleted.
      *
-     * @param task
-     *            The task that was deleted.
+     * @param deletedTasks
+     *            The list of tasks that were deleted.
      * @param taskCount
      *            The total number of tasks in the list after deletion.
      */
-    public void showDeletedTask(Task task, int taskCount) {
-        System.out.println("Noted. I've removed this task:");
-        System.out.println("  " + task);
+    public void showDeletedTasks(List<Task> deletedTasks, int taskCount) {
+        System.out.println("Noted. I've removed the following tasks:");
+        for (Task task : deletedTasks) {
+            System.out.println("  " + task);
+        }
         System.out.println("Now you have " + taskCount + " tasks in the list.");
     }
 

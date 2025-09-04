@@ -79,12 +79,16 @@ public class Parser {
      *             If the task number is missing or invalid.
      */
     private static MarkCommand parseMarkCommand(String content) throws JettVarkisException {
-        if (content == null) {
+        if (content == null || content.trim().isEmpty()) {
             throw new JettVarkisException(JettVarkisException.ErrorType.MISSING_TASK_NUMBER);
         }
+        String[] indexStrings = content.split("\\s+");
         try {
-            int taskIndex = Integer.parseInt(content) - 1;
-            return new MarkCommand(taskIndex);
+            int[] taskIndices = new int[indexStrings.length];
+            for (int i = 0; i < indexStrings.length; i++) {
+                taskIndices[i] = Integer.parseInt(indexStrings[i]) - 1;
+            }
+            return new MarkCommand(taskIndices);
         } catch (NumberFormatException e) {
             throw new JettVarkisException(JettVarkisException.ErrorType.INVALID_TASK_NUMBER);
         }
@@ -100,12 +104,16 @@ public class Parser {
      *             If the task number is missing or invalid.
      */
     private static UnmarkCommand parseUnmarkCommand(String content) throws JettVarkisException {
-        if (content == null) {
+        if (content == null || content.trim().isEmpty()) {
             throw new JettVarkisException(JettVarkisException.ErrorType.MISSING_TASK_NUMBER);
         }
+        String[] indexStrings = content.split("\\s+");
         try {
-            int taskIndex = Integer.parseInt(content) - 1;
-            return new UnmarkCommand(taskIndex);
+            int[] taskIndices = new int[indexStrings.length];
+            for (int i = 0; i < indexStrings.length; i++) {
+                taskIndices[i] = Integer.parseInt(indexStrings[i]) - 1;
+            }
+            return new UnmarkCommand(taskIndices);
         } catch (NumberFormatException e) {
             throw new JettVarkisException(JettVarkisException.ErrorType.INVALID_TASK_NUMBER);
         }
@@ -203,12 +211,16 @@ public class Parser {
      *             If the task number is missing or invalid.
      */
     private static DeleteCommand parseDeleteCommand(String content) throws JettVarkisException {
-        if (content == null) {
+        if (content == null || content.trim().isEmpty()) {
             throw new JettVarkisException(JettVarkisException.ErrorType.MISSING_TASK_NUMBER);
         }
+        String[] indexStrings = content.split("\s+");
         try {
-            int taskIndex = Integer.parseInt(content) - 1;
-            return new DeleteCommand(taskIndex);
+            int[] taskIndices = new int[indexStrings.length];
+            for (int i = 0; i < indexStrings.length; i++) {
+                taskIndices[i] = Integer.parseInt(indexStrings[i]) - 1;
+            }
+            return new DeleteCommand(taskIndices);
         } catch (NumberFormatException e) {
             throw new JettVarkisException(JettVarkisException.ErrorType.INVALID_TASK_NUMBER);
         }
