@@ -33,6 +33,7 @@ public class MainWindow extends AnchorPane {
     }
 
     public void setJettVarkis(JettVarkis d) {
+        assert d != null;
         jettVarkis = d;
     }
 
@@ -43,8 +44,11 @@ public class MainWindow extends AnchorPane {
      */
     @FXML
     private void handleUserInput() {
+        assert userInput != null;
         String input = userInput.getText();
+        assert jettVarkis != null : "JettVarkis instance not set";
         String response = jettVarkis.getResponse(input);
+        assert dialogContainer != null : "Dialog container is null";
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
                 DialogBox.getDukeDialog(response, dukeImage));

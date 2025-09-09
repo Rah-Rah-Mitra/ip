@@ -22,6 +22,8 @@ public class Event extends Task {
      */
     public Event(String description, LocalDateTime from, LocalDateTime to) {
         super(description);
+        assert from != null : "LocalDateTime 'from' cannot be null";
+        assert to != null : "LocalDateTime 'to' cannot be null";
         this.from = from;
         this.to = to;
         this.originalFrom = null;
@@ -37,6 +39,8 @@ public class Event extends Task {
      */
     public Event(String description, String from, String to) {
         super(description);
+        assert from != null && !from.trim().isEmpty() : "String 'from' cannot be null or empty";
+        assert to != null && !to.trim().isEmpty() : "String 'to' cannot be null or empty";
         this.from = null;
         this.to = null;
         this.originalFrom = from;

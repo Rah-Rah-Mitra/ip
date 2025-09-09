@@ -25,11 +25,15 @@ public class DialogBox extends HBox {
     private ImageView displayPicture;
 
     private DialogBox(String text, Image img) {
+        assert text != null;
+        assert img != null;
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(MainWindow.class.getResource("/view/DialogBox.fxml"));
             fxmlLoader.setController(this);
             fxmlLoader.setRoot(this);
             fxmlLoader.load();
+            assert dialog != null : "Dialog label is null after FXML load";
+            assert displayPicture != null : "Display picture is null after FXML load";
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -50,10 +54,14 @@ public class DialogBox extends HBox {
     }
 
     public static DialogBox getUserDialog(String text, Image img) {
+        assert text != null;
+        assert img != null;
         return new DialogBox(text, img);
     }
 
     public static DialogBox getDukeDialog(String text, Image img) {
+        assert text != null;
+        assert img != null;
         var db = new DialogBox(text, img);
         db.flip();
         return db;

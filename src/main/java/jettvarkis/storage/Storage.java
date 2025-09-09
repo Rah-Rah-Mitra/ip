@@ -24,6 +24,7 @@ public class Storage {
      *            The path to the file where tasks will be stored.
      */
     public Storage(String filePath) {
+        assert filePath != null && !filePath.trim().isEmpty();
         this.filePath = filePath;
     }
 
@@ -47,6 +48,8 @@ public class Storage {
                 file.getParentFile().mkdirs();
                 // Create the file itself
                 file.createNewFile();
+                assert file.exists();
+                assert file != null : "File object should not be null after creation attempt";
             } catch (IOException e) {
                 throw new JettVarkisException(JettVarkisException.ErrorType.FILE_OPERATION_ERROR);
             }
@@ -77,8 +80,10 @@ public class Storage {
      *             If there is an error writing to the file.
      */
     public void save(ArrayList<Task> tasks) throws JettVarkisException {
+        assert tasks != null;
         try (FileWriter writer = new FileWriter(filePath)) {
             for (Task task : tasks) {
+                assert task.toFileString() != null : "Task file string cannot be null";
                 writer.write(task.toFileString() + System.lineSeparator());
             }
         } catch (IOException e) {

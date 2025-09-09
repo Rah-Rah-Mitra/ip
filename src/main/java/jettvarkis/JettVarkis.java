@@ -25,6 +25,7 @@ public class JettVarkis {
      * @param filePath The path to the file where tasks are stored.
      */
     public JettVarkis(String filePath) {
+        assert filePath != null && !filePath.trim().isEmpty();
         ui = new Ui();
         storage = new Storage(filePath);
         try {
@@ -42,6 +43,7 @@ public class JettVarkis {
      * @return The response from the chatbot.
      */
     public String getResponse(String input) {
+        assert input != null;
         try {
             java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
             java.io.PrintStream ps = new java.io.PrintStream(baos);
@@ -49,6 +51,7 @@ public class JettVarkis {
             System.setOut(ps);
 
             Command c = Parser.parse(input);
+            assert c != null : "Parsed command cannot be null";
             c.execute(ui, tasks, storage);
 
             System.out.flush();
