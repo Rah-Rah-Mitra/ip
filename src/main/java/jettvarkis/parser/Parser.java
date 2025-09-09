@@ -38,6 +38,7 @@ public class Parser {
      *             If the command is unknown or invalid.
      */
     public static Command parse(String fullCommand) throws JettVarkisException {
+        assert fullCommand != null;
         String[] parts = fullCommand.split(" ", 2);
         String command = parts[0];
         String content = parts.length > 1 ? parts[1] : null;
@@ -130,7 +131,7 @@ public class Parser {
      *             If the todo description is empty.
      */
     private static TodoCommand parseTodoCommand(String content) throws JettVarkisException {
-        if (content == null) {
+        if (content == null || content.trim().isEmpty()) {
             throw new JettVarkisException(JettVarkisException.ErrorType.EMPTY_TODO_DESCRIPTION);
         }
         return new TodoCommand(content);
@@ -147,7 +148,7 @@ public class Parser {
      *             If the description or due date is missing or invalid.
      */
     private static DeadlineCommand parseDeadlineCommand(String content) throws JettVarkisException {
-        if (content == null) {
+        if (content == null || content.trim().isEmpty()) {
             throw new JettVarkisException(JettVarkisException.ErrorType.EMPTY_DEADLINE_DESCRIPTION);
         }
         String[] deadlineParts = content.split(" /by ");
@@ -176,7 +177,7 @@ public class Parser {
      *             If the description, from, or to dates are missing or invalid.
      */
     private static EventCommand parseEventCommand(String content) throws JettVarkisException {
-        if (content == null) {
+        if (content == null || content.trim().isEmpty()) {
             throw new JettVarkisException(JettVarkisException.ErrorType.EMPTY_EVENT_DESCRIPTION);
         }
         String[] eventParts = content.split(" /from ");
@@ -214,7 +215,7 @@ public class Parser {
         if (content == null || content.trim().isEmpty()) {
             throw new JettVarkisException(JettVarkisException.ErrorType.MISSING_TASK_NUMBER);
         }
-        String[] indexStrings = content.split("\s+");
+        String[] indexStrings = content.split("\\s+");
         try {
             int[] taskIndices = new int[indexStrings.length];
             for (int i = 0; i < indexStrings.length; i++) {
@@ -236,7 +237,9 @@ public class Parser {
      *             If the file line is corrupted or in an unknown format.
      */
     public static Task parseFileLine(String line) throws JettVarkisException {
+        assert line != null;
         String[] parts = line.split(" \\| ");
+        assert parts.length >= 3 : "File line must have at least 3 parts: " + line;
         String type = parts[0];
         boolean isDone = parts[1].equals("1");
         String description = parts[2];
@@ -304,6 +307,9 @@ public class Parser {
      *             If the string cannot be parsed by any of the supported formats.
      */
     private static LocalDateTime parseDateTime(String dateTimeString) throws DateTimeParseException {
+        if (dateTimeString == null || dateTimeString.trim().isEmpty()) {
+            throw new DateTimeParseException("Date-time string cannot be empty or null.", dateTimeString, 0);
+        }
         List<DateTimeFormatter> formatters = Arrays.asList(
                 DateTimeFormatter.ofPattern("d/M/yyyy HHmm"),
                 DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"),
