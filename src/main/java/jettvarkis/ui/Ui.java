@@ -35,6 +35,8 @@ public class Ui {
      *            The total number of tasks in the list after addition.
      */
     public void showAddedTask(Task task, int taskCount) {
+        assert task != null;
+        assert taskCount >= 0 : "Task count cannot be negative";
         System.out.println("Got it. I've added this task:");
         System.out.println("  " + task);
         System.out.println("Now you have " + taskCount + " tasks in the list.");
@@ -47,8 +49,10 @@ public class Ui {
      *            The ArrayList of tasks to be displayed.
      */
     public void showTasks(ArrayList<Task> tasks) {
+        assert tasks != null;
         System.out.println("Here are the tasks in your list:");
         for (int i = 0; i < tasks.size(); i++) {
+            assert tasks.get(i) != null : "Task at index " + i + " is null";
             System.out.println((i + 1) + "." + tasks.get(i));
         }
     }
@@ -60,6 +64,7 @@ public class Ui {
      *            The list of tasks that were marked.
      */
     public void showMarkedTasks(List<Task> markedTasks) {
+        assert markedTasks != null;
         System.out.println("Nice! I've marked the following tasks as done:");
         for (Task task : markedTasks) {
             System.out.println("  " + task);
@@ -73,6 +78,7 @@ public class Ui {
      *            The list of tasks that were unmarked.
      */
     public void showUnmarkedTasks(List<Task> unmarkedTasks) {
+        assert unmarkedTasks != null;
         System.out.println("OK, I've marked the following tasks as not done yet:");
         for (Task task : unmarkedTasks) {
             System.out.println("  " + task);
@@ -88,6 +94,8 @@ public class Ui {
      *            The total number of tasks in the list after deletion.
      */
     public void showDeletedTasks(List<Task> deletedTasks, int taskCount) {
+        assert deletedTasks != null;
+        assert taskCount >= 0 : "Task count cannot be negative";
         System.out.println("Noted. I've removed the following tasks:");
         for (Task task : deletedTasks) {
             System.out.println("  " + task);
@@ -102,6 +110,7 @@ public class Ui {
      *            The error message to be displayed.
      */
     public void showError(String message) {
+        assert message != null;
         System.out.println("    OOPS!!! " + message);
     }
 
@@ -112,6 +121,7 @@ public class Ui {
      *            The list of tasks found.
      */
     public void showFoundTasks(List<Task> tasks) {
+        assert tasks != null;
         if (tasks.isEmpty()) {
             System.out.println("No matching tasks found in your list: Jett Varkis is sad.");
         } else {

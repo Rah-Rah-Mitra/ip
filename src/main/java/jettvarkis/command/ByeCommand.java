@@ -22,6 +22,7 @@ public class ByeCommand extends Command {
      */
     @Override
     public void execute(Ui ui, TaskList tasks, Storage storage) {
+        assert ui != null : "Ui object cannot be null";
         ui.showGoodbye();
     }
 
