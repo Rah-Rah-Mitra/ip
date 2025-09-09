@@ -3,6 +3,7 @@ package jettvarkis;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import jettvarkis.task.Deadline;
 import jettvarkis.task.Event;
@@ -151,13 +152,9 @@ public class TaskList {
      */
     public List<Task> findTasks(String keyword) {
         assert keyword != null;
-        ArrayList<Task> foundTasks = new ArrayList<>();
-        for (Task task : tasks) {
-            if (task.toString().toLowerCase().contains(keyword.toLowerCase())) {
-                foundTasks.add(task);
-            }
-        }
-        return foundTasks;
+        return tasks.stream()
+                .filter(task -> task.toString().toLowerCase().contains(keyword.toLowerCase()))
+                .collect(Collectors.toList());
     }
 
     /**

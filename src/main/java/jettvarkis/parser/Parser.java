@@ -96,10 +96,9 @@ public class Parser {
         }
         String[] indexStrings = content.split("\\s+");
         try {
-            int[] taskIndices = new int[indexStrings.length];
-            for (int i = 0; i < indexStrings.length; i++) {
-                taskIndices[i] = Integer.parseInt(indexStrings[i]) - 1;
-            }
+            int[] taskIndices = Arrays.stream(indexStrings)
+                    .mapToInt(s -> Integer.parseInt(s) - 1)
+                    .toArray();
             return new MarkCommand(taskIndices);
         } catch (NumberFormatException e) {
             throw new JettVarkisException(JettVarkisException.ErrorType.INVALID_TASK_NUMBER);
@@ -121,10 +120,9 @@ public class Parser {
         }
         String[] indexStrings = content.split("\\s+");
         try {
-            int[] taskIndices = new int[indexStrings.length];
-            for (int i = 0; i < indexStrings.length; i++) {
-                taskIndices[i] = Integer.parseInt(indexStrings[i]) - 1;
-            }
+            int[] taskIndices = Arrays.stream(indexStrings)
+                    .mapToInt(s -> Integer.parseInt(s) - 1)
+                    .toArray();
             return new UnmarkCommand(taskIndices);
         } catch (NumberFormatException e) {
             throw new JettVarkisException(JettVarkisException.ErrorType.INVALID_TASK_NUMBER);
@@ -233,10 +231,9 @@ public class Parser {
         }
         String[] indexStrings = content.split("\\s+");
         try {
-            int[] taskIndices = new int[indexStrings.length];
-            for (int i = 0; i < indexStrings.length; i++) {
-                taskIndices[i] = Integer.parseInt(indexStrings[i]) - 1;
-            }
+            int[] taskIndices = Arrays.stream(indexStrings)
+                    .mapToInt(s -> Integer.parseInt(s) - 1)
+                    .toArray();
             return new DeleteCommand(taskIndices);
         } catch (NumberFormatException e) {
             throw new JettVarkisException(JettVarkisException.ErrorType.INVALID_TASK_NUMBER);
