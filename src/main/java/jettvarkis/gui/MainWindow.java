@@ -35,6 +35,9 @@ public class MainWindow extends AnchorPane {
     public void setJettVarkis(JettVarkis d) {
         assert d != null;
         jettVarkis = d;
+        // Display the welcome message when JettVarkis is set
+        dialogContainer.getChildren().add(
+                DialogBox.getJettVarkisDialog(jettVarkis.getWelcomeMessage(), jettVarkisImage));
     }
 
     /**

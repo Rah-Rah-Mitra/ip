@@ -61,4 +61,12 @@ public class JettVarkis {
             return e.getMessage();
         }
     }
+
+    /**
+     * Returns the welcome message for the application.
+     * @return The welcome message string.
+     */
+    public String getWelcomeMessage() {
+        return ui.getWelcomeMessage();
+    }
 }
