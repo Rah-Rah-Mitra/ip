@@ -33,6 +33,7 @@ public class EventCommand extends Command {
      *            The end time of the event.
      */
     public EventCommand(String description, LocalDateTime from, LocalDateTime to) {
+        assert description != null && !description.trim().isEmpty();
         this.description = description;
         this.from = from;
         this.to = to;
@@ -53,6 +54,7 @@ public class EventCommand extends Command {
      *            The end time of the event as a string.
      */
     public EventCommand(String description, String from, String to) {
+        assert description != null && !description.trim().isEmpty();
         this.description = description;
         this.from = null;
         this.to = null;
@@ -75,6 +77,7 @@ public class EventCommand extends Command {
      *            A boolean indicating whether to show a warning about date format.
      */
     public EventCommand(String description, String from, String to, boolean showWarning) {
+        assert description != null && !description.trim().isEmpty();
         this.description = description;
         this.from = null;
         this.to = null;
@@ -101,6 +104,9 @@ public class EventCommand extends Command {
      */
     @Override
     public void execute(Ui ui, TaskList tasks, Storage storage) throws JettVarkisException {
+        assert ui != null;
+        assert tasks != null;
+        assert storage != null;
         if (showWarning) {
             ui.showError("Did you mean to use a format like 'd/M/yyyy HHmm'? Still adding as a string.");
         }
@@ -109,7 +115,9 @@ public class EventCommand extends Command {
         } else {
             tasks.addEvent(description, originalFrom, originalTo);
         }
+        assert tasks.getTaskCount() > 0 : "Task list should not be empty after adding a task";
         Optional<Task> task = tasks.getTask(tasks.getTaskCount() - 1);
+        assert task.isPresent() : "Newly added task should be present";
         task.ifPresent(value -> ui.showAddedTask(value, tasks.getTaskCount()));
         storage.save(tasks.getTasks());
     }

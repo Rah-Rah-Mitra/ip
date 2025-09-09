@@ -23,6 +23,7 @@ public class MarkCommand extends Command {
      *            The zero-based indices of the tasks to be marked.
      */
     public MarkCommand(int... taskIndices) {
+        assert taskIndices != null;
         this.taskIndices = taskIndices;
     }
 
@@ -43,8 +44,12 @@ public class MarkCommand extends Command {
      */
     @Override
     public void execute(Ui ui, TaskList tasks, Storage storage) throws JettVarkisException {
+        assert ui != null;
+        assert tasks != null;
+        assert storage != null;
         List<Task> markedTasks = new ArrayList<>();
         for (int taskIndex : taskIndices) {
+            assert taskIndex >= 0 && taskIndex < tasks.getTaskCount();
             tasks.getTask(taskIndex).ifPresentOrElse(task -> {
                 task.markAsDone();
                 markedTasks.add(task);
@@ -57,6 +62,7 @@ public class MarkCommand extends Command {
             });
         }
         if (!markedTasks.isEmpty()) {
+            assert markedTasks != null : "Marked tasks list should not be null";
             ui.showMarkedTasks(markedTasks);
             storage.save(tasks.getTasks());
         }

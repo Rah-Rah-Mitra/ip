@@ -30,6 +30,7 @@ public class DeadlineCommand extends Command {
      *            The due date/time of the task.
      */
     public DeadlineCommand(String description, LocalDateTime by) {
+        assert description != null && !description.trim().isEmpty();
         this.description = description;
         this.by = by;
         this.originalBy = null;
@@ -46,6 +47,7 @@ public class DeadlineCommand extends Command {
      *            The due date/time of the task as a string.
      */
     public DeadlineCommand(String description, String by) {
+        assert description != null && !description.trim().isEmpty();
         this.description = description;
         this.by = null;
         this.originalBy = by;
@@ -64,6 +66,7 @@ public class DeadlineCommand extends Command {
      *            A boolean indicating whether to show a warning about date format.
      */
     public DeadlineCommand(String description, String by, boolean showWarning) {
+        assert description != null && !description.trim().isEmpty();
         this.description = description;
         this.by = null;
         this.originalBy = by;
@@ -88,6 +91,9 @@ public class DeadlineCommand extends Command {
      */
     @Override
     public void execute(Ui ui, TaskList tasks, Storage storage) throws JettVarkisException {
+        assert ui != null;
+        assert tasks != null;
+        assert storage != null;
         if (showWarning) {
             ui.showError("Did you mean to use a format like 'd/M/yyyy HHmm'? Still adding as a string.");
         }
@@ -96,7 +102,9 @@ public class DeadlineCommand extends Command {
         } else {
             tasks.addDeadline(description, originalBy);
         }
+        assert tasks.getTaskCount() > 0 : "Task list should not be empty after adding a task";
         Optional<Task> task = tasks.getTask(tasks.getTaskCount() - 1);
+        assert task.isPresent() : "Newly added task should be present";
         task.ifPresent(value -> ui.showAddedTask(value, tasks.getTaskCount()));
         storage.save(tasks.getTasks());
     }
