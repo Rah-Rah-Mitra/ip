@@ -14,7 +14,7 @@ import jettvarkis.gui.MainWindow;
  */
 public class Main extends Application {
 
-    private JettVarkis jettVarkis = new JettVarkis("../data/jettvarkis.txt");
+    private JettVarkis jettVarkis = new JettVarkis("data/jettvarkis.txt");
 
     @Override
     public void start(Stage stage) {
