@@ -15,7 +15,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
 /**
- * Represents a dialog box consisting of an ImageView to represent the speaker's face
+ * Represents a dialog box consisting of an ImageView to represent the speaker's
+ * face
  * and a label containing text from the speaker.
  */
 public class DialogBox extends HBox {
@@ -43,7 +44,8 @@ public class DialogBox extends HBox {
     }
 
     /**
-     * Flips the dialog box such that the ImageView is on the left and text on the right.
+     * Flips the dialog box such that the ImageView is on the left and text on the
+     * right.
      */
     private void flip() {
         ObservableList<Node> tmp = FXCollections.observableArrayList(this.getChildren());
@@ -59,7 +61,7 @@ public class DialogBox extends HBox {
         return new DialogBox(text, img);
     }
 
-    public static DialogBox getDukeDialog(String text, Image img) {
+    public static DialogBox getJettVarkisDialog(String text, Image img) {
         assert text != null;
         assert img != null;
         var db = new DialogBox(text, img);

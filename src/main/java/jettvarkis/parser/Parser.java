@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional; // Added for Optional return type
 
 import jettvarkis.command.ByeCommand;
 import jettvarkis.command.Command;
@@ -26,6 +27,16 @@ import jettvarkis.task.Todo;
  * Handles parsing of user commands and file input.
  */
 public class Parser {
+
+    private static final int FILE_TYPE_INDEX = 0;
+    private static final int FILE_IS_DONE_INDEX = 1;
+    private static final int FILE_DESCRIPTION_INDEX = 2;
+    private static final int FILE_DEADLINE_BY_INDEX = 3;
+    private static final int FILE_EVENT_FROM_INDEX = 3;
+    private static final int FILE_EVENT_TO_INDEX = 4;
+
+    private static final int MIN_DEADLINE_PARTS = 4;
+    private static final int MIN_EVENT_PARTS = 5;
 
     /**
      * Parses the full command string from the user and returns the corresponding
@@ -161,7 +172,9 @@ public class Parser {
             LocalDateTime byDateTime = parseDateTime(by);
             return new DeadlineCommand(description, byDateTime);
         } catch (DateTimeParseException e) {
-            boolean showWarning = by.matches(".*\\d.*") && (by.contains("/") || by.contains("-"));
+            boolean hasDigits = by.matches(".*\\d.*") && (by.contains("/") || by.contains("-"));
+            boolean hasSlashOrHyphen = by.contains("/") || by.contains("-");
+            boolean showWarning = hasDigits && hasSlashOrHyphen;
             return new DeadlineCommand(description, by, showWarning);
         }
     }
@@ -196,8 +209,11 @@ public class Parser {
             LocalDateTime toDateTime = parseDateTime(to);
             return new EventCommand(description, fromDateTime, toDateTime);
         } catch (DateTimeParseException e) {
-            boolean showWarning = (from.matches(".*\\d.*") && (from.contains("/") || from.contains("-")))
-                    || (to.matches(".*\\d.*") && (to.contains("/") || to.contains("-")));
+            boolean fromHasDigits = from.matches(".*\\d.*") && (from.contains("/") || from.contains("-"));
+            boolean fromHasSlashOrHyphen = from.contains("/") || from.contains("-");
+            boolean toHasDigits = to.matches(".*\\d.*") && (to.contains("/") || to.contains("-"));
+            boolean toHasSlashOrHyphen = to.contains("/") || to.contains("-");
+            boolean showWarning = (fromHasDigits && fromHasSlashOrHyphen) || (toHasDigits && toHasSlashOrHyphen);
             return new EventCommand(description, from, to, showWarning);
         }
     }
@@ -240,9 +256,9 @@ public class Parser {
         assert line != null;
         String[] parts = line.split(" \\| ");
         assert parts.length >= 3 : "File line must have at least 3 parts: " + line;
-        String type = parts[0];
-        boolean isDone = parts[1].equals("1");
-        String description = parts[2];
+        String type = parts[FILE_TYPE_INDEX];
+        boolean isDone = parts[FILE_IS_DONE_INDEX].equals("1");
+        String description = parts[FILE_DESCRIPTION_INDEX];
 
         Task task;
         switch (type) {
@@ -250,38 +266,29 @@ public class Parser {
             task = new Todo(description);
             break;
         case "D":
-            if (parts.length < 4) {
+            if (parts.length < MIN_DEADLINE_PARTS) {
                 throw new JettVarkisException(JettVarkisException.ErrorType.CORRUPTED_DATA_ERROR);
             }
-            String byString = parts[3];
-            try {
-                LocalDateTime byDateTime = LocalDateTime.parse(byString);
-                task = new Deadline(description, byDateTime);
-            } catch (DateTimeParseException e) {
+            String byString = parts[FILE_DEADLINE_BY_INDEX];
+            Optional<LocalDateTime> byDateTime = parseDateTimeSafely(byString);
+            if (byDateTime.isPresent()) {
+                task = new Deadline(description, byDateTime.get());
+            } else {
                 task = new Deadline(description, byString);
             }
             break;
         case "E":
-            if (parts.length < 5) {
+            if (parts.length < MIN_EVENT_PARTS) {
                 throw new JettVarkisException(JettVarkisException.ErrorType.CORRUPTED_DATA_ERROR);
             }
-            String fromString = parts[3];
-            String toString = parts[4];
-            LocalDateTime fromDateTime = null;
-            LocalDateTime toDateTime = null;
-            try {
-                fromDateTime = LocalDateTime.parse(fromString);
-            } catch (DateTimeParseException e) {
-                // Keep fromDateTime as null, use original string
-            }
-            try {
-                toDateTime = LocalDateTime.parse(toString);
-            } catch (DateTimeParseException e) {
-                // Keep toDateTime as null, use original string
-            }
+            String fromString = parts[FILE_EVENT_FROM_INDEX];
+            String toString = parts[FILE_EVENT_TO_INDEX];
 
-            if (fromDateTime != null && toDateTime != null) {
-                task = new Event(description, fromDateTime, toDateTime);
+            Optional<LocalDateTime> fromDateTime = parseDateTimeSafely(fromString);
+            Optional<LocalDateTime> toDateTime = parseDateTimeSafely(toString);
+
+            if (fromDateTime.isPresent() && toDateTime.isPresent()) {
+                task = new Event(description, fromDateTime.get(), toDateTime.get());
             } else {
                 task = new Event(description, fromString, toString);
             }
@@ -327,5 +334,22 @@ public class Parser {
             }
         }
         throw new DateTimeParseException("Unable to parse date-time: " + dateTimeString, dateTimeString, 0);
+    }
+
+    /**
+     * Safely parses a date-time string into a LocalDateTime object.
+     * Returns an Optional.empty() if parsing fails.
+     *
+     * @param dateTimeString
+     *            The date-time string to parse.
+     * @return An Optional containing the LocalDateTime object if successful,
+     *         otherwise an empty Optional.
+     */
+    private static Optional<LocalDateTime> parseDateTimeSafely(String dateTimeString) {
+        try {
+            return Optional.of(parseDateTime(dateTimeString));
+        } catch (DateTimeParseException e) {
+            return Optional.empty();
+        }
     }
 }
