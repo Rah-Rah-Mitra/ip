@@ -15,13 +15,22 @@ import jettvarkis.ui.Ui;
 public class FindCommand extends Command {
     private String keyword;
 
+    /**
+     * Constructs a FindCommand with the specified keyword.
+     *
+     * @param keyword The keyword to search for.
+     */
     public FindCommand(String keyword) {
+        assert keyword != null && !keyword.trim().isEmpty();
         this.keyword = keyword;
     }
 
     @Override
     public void execute(Ui ui, TaskList tasks, Storage storage) throws JettVarkisException {
+        assert ui != null;
+        assert tasks != null;
         List<Task> foundTasks = tasks.findTasks(keyword);
+        assert foundTasks != null : "Found tasks list should not be null";
         ui.showFoundTasks(foundTasks);
     }
 }

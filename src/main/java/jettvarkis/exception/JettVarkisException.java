@@ -71,6 +71,7 @@ public class JettVarkisException extends Exception {
      */
     public JettVarkisException(ErrorType errorType) {
         super(errorType.getMessage());
+        assert errorType != null;
         this.errorType = errorType;
     }
 

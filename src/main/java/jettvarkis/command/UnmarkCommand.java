@@ -23,6 +23,7 @@ public class UnmarkCommand extends Command {
      *            The zero-based indices of the tasks to be unmarked.
      */
     public UnmarkCommand(int... taskIndices) {
+        assert taskIndices != null;
         this.taskIndices = taskIndices;
     }
 
@@ -42,8 +43,12 @@ public class UnmarkCommand extends Command {
      */
     @Override
     public void execute(Ui ui, TaskList tasks, Storage storage) throws JettVarkisException {
+        assert ui != null;
+        assert tasks != null;
+        assert storage != null;
         List<Task> unmarkedTasks = new ArrayList<>();
         for (int taskIndex : taskIndices) {
+            assert taskIndex >= 0 && taskIndex < tasks.getTaskCount();
             tasks.getTask(taskIndex).ifPresentOrElse(task -> {
                 task.markAsUndone();
                 unmarkedTasks.add(task);
@@ -56,6 +61,7 @@ public class UnmarkCommand extends Command {
             });
         }
         if (!unmarkedTasks.isEmpty()) {
+            assert unmarkedTasks != null : "Unmarked tasks list should not be null";
             ui.showUnmarkedTasks(unmarkedTasks);
             storage.save(tasks.getTasks());
         }

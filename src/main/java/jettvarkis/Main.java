@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 import jettvarkis.gui.MainWindow;
 
 /**
- * A GUI for Duke using FXML.
+ * A GUI for Jett Varkis using FXML.
  */
 public class Main extends Application {
 
@@ -18,9 +18,11 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
+        assert stage != null;
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/MainWindow.fxml"));
             AnchorPane ap = fxmlLoader.load();
+            assert ap != null : "FXML loading failed, AnchorPane is null";
             Scene scene = new Scene(ap);
             stage.setScene(scene);
             fxmlLoader.<MainWindow>getController().setJettVarkis(jettVarkis);

@@ -45,6 +45,9 @@ public class DeleteCommand extends Command {
      */
     @Override
     public void execute(Ui ui, TaskList tasks, Storage storage) throws JettVarkisException {
+        assert ui != null;
+        assert tasks != null;
+        assert storage != null;
         // Sort indices in descending order to avoid issues with shifting indices after deletion
         Integer[] sortedIndices = Arrays.stream(taskIndices).boxed()
                 .sorted(Comparator.reverseOrder())
