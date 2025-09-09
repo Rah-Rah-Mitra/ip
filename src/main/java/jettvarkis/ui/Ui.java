@@ -2,6 +2,7 @@ package jettvarkis.ui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import jettvarkis.task.Task;
 
@@ -13,10 +14,11 @@ import jettvarkis.task.Task;
 public class Ui {
 
     /**
-     * Displays a welcome message to the user.
+     * Returns the welcome message to the user.
+     * @return The welcome message string.
      */
-    public void showWelcome() {
-        System.out.println("Jett Varkis at your service. What can I get for you?");
+    public String getWelcomeMessage() {
+        return "Jett Varkis at your service. What can I get for you?";
     }
 
     /**
@@ -51,10 +53,11 @@ public class Ui {
     public void showTasks(ArrayList<Task> tasks) {
         assert tasks != null;
         System.out.println("Here are the tasks in your list:");
-        for (int i = 0; i < tasks.size(); i++) {
-            assert tasks.get(i) != null : "Task at index " + i + " is null";
-            System.out.println((i + 1) + "." + tasks.get(i));
-        }
+        IntStream.range(0, tasks.size())
+                .forEach(i -> {
+                    assert tasks.get(i) != null : "Task at index " + i + " is null";
+                    System.out.println((i + 1) + "." + tasks.get(i));
+                });
     }
 
     /**
@@ -66,9 +69,7 @@ public class Ui {
     public void showMarkedTasks(List<Task> markedTasks) {
         assert markedTasks != null;
         System.out.println("Nice! I've marked the following tasks as done:");
-        for (Task task : markedTasks) {
-            System.out.println("  " + task);
-        }
+        markedTasks.forEach(task -> System.out.println("  " + task));
     }
 
     /**
@@ -80,9 +81,7 @@ public class Ui {
     public void showUnmarkedTasks(List<Task> unmarkedTasks) {
         assert unmarkedTasks != null;
         System.out.println("OK, I've marked the following tasks as not done yet:");
-        for (Task task : unmarkedTasks) {
-            System.out.println("  " + task);
-        }
+        unmarkedTasks.forEach(task -> System.out.println("  " + task));
     }
 
     /**
@@ -97,9 +96,7 @@ public class Ui {
         assert deletedTasks != null;
         assert taskCount >= 0 : "Task count cannot be negative";
         System.out.println("Noted. I've removed the following tasks:");
-        for (Task task : deletedTasks) {
-            System.out.println("  " + task);
-        }
+        deletedTasks.forEach(task -> System.out.println("  " + task));
         System.out.println("Now you have " + taskCount + " tasks in the list.");
     }
 
@@ -126,9 +123,8 @@ public class Ui {
             System.out.println("No matching tasks found in your list: Jett Varkis is sad.");
         } else {
             System.out.println("Here are the matching tasks in your list:");
-            for (int i = 0; i < tasks.size(); i++) {
-                System.out.println("  " + (i + 1) + "." + tasks.get(i));
-            }
+            IntStream.range(0, tasks.size())
+                    .forEach(i -> System.out.println("  " + (i + 1) + "." + tasks.get(i)));
         }
     }
 }
