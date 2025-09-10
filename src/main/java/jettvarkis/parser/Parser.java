@@ -264,7 +264,8 @@ public class Parser {
 
         switch (subCommand) {
         case "list":
-            return new TriviaListCommand();
+            boolean showAll = subContent != null && subContent.trim().equals("/l");
+            return new TriviaListCommand(showAll);
         case "add":
             if (subContent == null || subContent.trim().isEmpty()) {
                 throw new JettVarkisException(JettVarkisException.ErrorType.UNKNOWN_COMMAND); // Or more specific

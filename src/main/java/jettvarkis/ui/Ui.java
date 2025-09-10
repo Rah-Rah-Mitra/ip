@@ -278,6 +278,7 @@ public class Ui {
     public void showTriviaHelp() {
         System.out.println("Here are the available trivia commands:");
         System.out.println("  trivia list - Displays all available trivia categories.");
+        System.out.println("    Use 'trivia list /l' to list all questions in the current category.");
         System.out.println("  trivia add <question> | <answer> - Adds a new trivia question to the current category.");
         System.out.println("  trivia select <category_name> - Selects a specific trivia category to work with.");
         System.out.println("  trivia start - Starts a trivia quiz session.");
