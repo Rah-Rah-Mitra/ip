@@ -4,6 +4,8 @@ import jettvarkis.command.Command;
 import jettvarkis.exception.JettVarkisException;
 import jettvarkis.parser.Parser;
 import jettvarkis.storage.Storage;
+import jettvarkis.trivia.Trivia;
+import jettvarkis.trivia.TriviaList;
 import jettvarkis.ui.Ui;
 
 /**
@@ -16,6 +18,10 @@ public class JettVarkis {
     private final Ui ui;
     private TaskList tasks;
     private final Storage storage;
+    private TriviaList triviaList;
+    private String currentTriviaCategory;
+    private boolean inQuizMode = false;
+    private Trivia currentQuizTrivia = null;
 
     /**
      * Constructs a new JettVarkis object.
@@ -34,6 +40,14 @@ public class JettVarkis {
             // Error should be handled by the GUI
             tasks = new TaskList();
         }
+        try {
+            // Load a default trivia category
+            currentTriviaCategory = "default";
+            triviaList = storage.loadTrivia(currentTriviaCategory);
+        } catch (JettVarkisException e) {
+            // Error should be handled by the GUI
+            triviaList = new TriviaList();
+        }
     }
 
     /**
@@ -50,9 +64,23 @@ public class JettVarkis {
             java.io.PrintStream old = System.out;
             System.setOut(ps);
 
-            Command c = Parser.parse(input);
-            assert c != null : "Parsed command cannot be null";
-            c.execute(ui, tasks, storage);
+            if (inQuizMode) {
+                // Handle quiz answers
+                if (input.equalsIgnoreCase("trivia stop")) {
+                    setInQuizMode(false);
+                    setCurrentQuizTrivia(null);
+                    ui.showTriviaStop();
+                } else if (currentQuizTrivia != null) {
+                    checkAnswer(input);
+                    if (inQuizMode) { // if not stopped
+                        askNextQuestion();
+                    }
+                }
+            } else {
+                Command c = Parser.parse(input);
+                assert c != null : "Parsed command cannot be null";
+                c.execute(ui, tasks, storage, this); // Pass this JettVarkis instance
+            }
 
             System.out.flush();
             System.setOut(old);
@@ -62,11 +90,74 @@ public class JettVarkis {
         }
     }
 
+    private void checkAnswer(String userAnswer) {
+        if (userAnswer.equalsIgnoreCase(currentQuizTrivia.getAnswer())) {
+            ui.showCorrectAnswer();
+        } else {
+            ui.showIncorrectAnswer(currentQuizTrivia.getAnswer());
+        }
+    }
+
+    /**
+     * Asks the next trivia question in the current quiz session.
+     * If there are no more questions, it will display an error and exit quiz mode.
+     */
+    public void askNextQuestion() {
+        currentQuizTrivia = triviaList.getRandomTrivia();
+        if (currentQuizTrivia != null) {
+            ui.showTriviaQuestion(currentQuizTrivia);
+        } else {
+            ui.showError("The current trivia category is empty!");
+            setInQuizMode(false);
+        }
+    }
+
+
     /**
      * Returns the welcome message for the application.
      * @return The welcome message string.
      */
     public String getWelcomeMessage() {
         return ui.getWelcomeMessage();
+    }
+
+    public TriviaList getTriviaList() {
+        return triviaList;
+    }
+
+    public void setTriviaList(TriviaList triviaList) {
+        this.triviaList = triviaList;
+    }
+
+    public String getCurrentTriviaCategory() {
+        return currentTriviaCategory;
+    }
+
+    public void setCurrentTriviaCategory(String currentTriviaCategory) {
+        this.currentTriviaCategory = currentTriviaCategory;
+    }
+
+    /**
+     * Gets the Storage object.
+     * @return The Storage object.
+     */
+    public Storage getStorage() {
+        return storage;
+    }
+
+    public boolean isInQuizMode() {
+        return inQuizMode;
+    }
+
+    public void setInQuizMode(boolean inQuizMode) {
+        this.inQuizMode = inQuizMode;
+    }
+
+    public Trivia getCurrentQuizTrivia() {
+        return currentQuizTrivia;
+    }
+
+    public void setCurrentQuizTrivia(Trivia currentQuizTrivia) {
+        this.currentQuizTrivia = currentQuizTrivia;
     }
 }

@@ -22,10 +22,13 @@ public abstract class Command {
      *            The TaskList object to manipulate tasks.
      * @param storage
      *            The Storage object to save/load tasks.
+     * @param jettVarkis
+     *            The main JettVarkis object.
      * @throws JettVarkisException
      *             If an error occurs during command execution.
      */
-    public abstract void execute(Ui ui, TaskList tasks, Storage storage) throws JettVarkisException;
+    public abstract void execute(Ui ui, TaskList tasks, Storage storage,
+                                 jettvarkis.JettVarkis jettVarkis) throws JettVarkisException;
 
     /**
      * Checks if this command is an exit command.

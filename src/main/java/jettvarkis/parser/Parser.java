@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional; // Added for Optional return type
+import java.util.Optional;
 
 import jettvarkis.command.ByeCommand;
 import jettvarkis.command.Command;
@@ -13,10 +13,19 @@ import jettvarkis.command.DeadlineCommand;
 import jettvarkis.command.DeleteCommand;
 import jettvarkis.command.EventCommand;
 import jettvarkis.command.FindCommand;
+import jettvarkis.command.HelpCommand;
 import jettvarkis.command.ListCommand;
 import jettvarkis.command.MarkCommand;
 import jettvarkis.command.TodoCommand;
 import jettvarkis.command.UnmarkCommand;
+import jettvarkis.command.trivia.TriviaAddCommand;
+import jettvarkis.command.trivia.TriviaCreateCommand;
+import jettvarkis.command.trivia.TriviaDeleteCommand;
+import jettvarkis.command.trivia.TriviaHelpCommand;
+import jettvarkis.command.trivia.TriviaListCommand;
+import jettvarkis.command.trivia.TriviaSelectCommand;
+import jettvarkis.command.trivia.TriviaStartCommand;
+import jettvarkis.command.trivia.TriviaStopCommand;
 import jettvarkis.exception.JettVarkisException;
 import jettvarkis.task.Deadline;
 import jettvarkis.task.Event;
@@ -76,6 +85,10 @@ public class Parser {
                 throw new JettVarkisException(JettVarkisException.ErrorType.EMPTY_FIND_KEYWORD);
             }
             return new FindCommand(content.trim());
+        case "trivia":
+            return parseTriviaCommand(content);
+        case "help": // Add this case
+            return new HelpCommand(); // Return the new HelpCommand
         default:
             throw new JettVarkisException(JettVarkisException.ErrorType.UNKNOWN_COMMAND);
         }
@@ -237,6 +250,67 @@ public class Parser {
             return new DeleteCommand(taskIndices);
         } catch (NumberFormatException e) {
             throw new JettVarkisException(JettVarkisException.ErrorType.INVALID_TASK_NUMBER);
+        }
+    }
+
+    private static Command parseTriviaCommand(String content) throws JettVarkisException {
+        if (content == null || content.trim().isEmpty()) {
+            throw new JettVarkisException(JettVarkisException.ErrorType.UNKNOWN_COMMAND); // Or a more specific trivia
+        }
+
+        String[] parts = content.trim().split(" ", 2);
+        String subCommand = parts[0];
+        String subContent = parts.length > 1 ? parts[1] : null;
+
+        switch (subCommand) {
+        case "list":
+            boolean showAll = subContent != null && subContent.trim().equals("/l");
+            return new TriviaListCommand(showAll);
+        case "add":
+            if (subContent == null || subContent.trim().isEmpty()) {
+                throw new JettVarkisException(JettVarkisException.ErrorType.UNKNOWN_COMMAND); // Or more specific
+            }
+            String[] triviaParts = subContent.split(" \\| ");
+            if (triviaParts.length < 2) {
+                throw new JettVarkisException(JettVarkisException.ErrorType.UNKNOWN_COMMAND); // Or more specific
+            }
+            return new TriviaAddCommand(triviaParts[0], triviaParts[1]);
+        case "select":
+            if (subContent == null || subContent.trim().isEmpty()) {
+                throw new JettVarkisException(JettVarkisException.ErrorType.UNKNOWN_COMMAND); // Or more specific
+            }
+            return new TriviaSelectCommand(subContent);
+        case "start":
+            return new TriviaStartCommand();
+        case "stop":
+            return new TriviaStopCommand();
+        case "delete":
+            if (subContent == null || subContent.trim().isEmpty()) {
+                throw new JettVarkisException(JettVarkisException.ErrorType.MISSING_TASK_NUMBER);
+            }
+            if (subContent.contains("/c")) {
+                String categoryToDelete = subContent.replace("/c", "").trim();
+                if (categoryToDelete.isEmpty()) {
+                    throw new JettVarkisException(JettVarkisException.ErrorType.EMPTY_TRIVIA_CATEGORY_NAME);
+                }
+                return new TriviaDeleteCommand(categoryToDelete);
+            } else {
+                try {
+                    int index = Integer.parseInt(subContent.trim()) - 1;
+                    return new TriviaDeleteCommand(index);
+                } catch (NumberFormatException e) {
+                    throw new JettVarkisException(JettVarkisException.ErrorType.INVALID_TASK_NUMBER);
+                }
+            }
+        case "create":
+            if (subContent == null || subContent.trim().isEmpty()) {
+                throw new JettVarkisException(JettVarkisException.ErrorType.EMPTY_TRIVIA_CATEGORY_NAME);
+            }
+            return new TriviaCreateCommand(subContent);
+        case "help":
+            return new TriviaHelpCommand();
+        default:
+            throw new JettVarkisException(JettVarkisException.ErrorType.UNKNOWN_COMMAND); // Or a more specific trivia
         }
     }
 
