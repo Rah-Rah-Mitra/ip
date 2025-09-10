@@ -36,7 +36,13 @@ public class JettVarkisException extends Exception {
         FILE_OPERATION_ERROR(
                 "Error during file operation."),
         CORRUPTED_DATA_ERROR(
-                "Data file is corrupted.");
+                "Data file is corrupted."),
+        EMPTY_TRIVIA_LIST("The current trivia list is empty."),
+        INVALID_TRIVIA_INDEX("The trivia item number provided is invalid."),
+        NOT_IN_QUIZ_MODE("You are not currently in quiz mode."),
+        EMPTY_TRIVIA_CATEGORY_NAME("Trivia category name cannot be empty."),
+        TRIVIA_CATEGORY_ALREADY_EXISTS("Trivia category already exists."),
+        TRIVIA_CATEGORY_NOT_FOUND("Trivia category not found.");
 
         private final String message;
 
@@ -61,6 +67,7 @@ public class JettVarkisException extends Exception {
     }
 
     private final ErrorType errorType;
+    private String customMessage;
 
     /**
      * Constructs a new JettVarkisException with the specified error type.
@@ -76,11 +83,33 @@ public class JettVarkisException extends Exception {
     }
 
     /**
+     * Constructs a new JettVarkisException with the specified error type and a custom message.
+     *
+     * @param errorType The type of error that occurred.
+     * @param customMessage A custom message to append or use instead of the default.
+     */
+    public JettVarkisException(ErrorType errorType, String customMessage) {
+        super(errorType.getMessage() + (customMessage != null && !customMessage.isEmpty() ? ": " + customMessage : ""));
+        assert errorType != null;
+        this.errorType = errorType;
+        this.customMessage = customMessage;
+    }
+
+    /**
      * Returns the type of error associated with this exception.
      *
      * @return The ErrorType of the exception.
      */
     public ErrorType getErrorType() {
         return errorType;
+    }
+
+    @Override
+    public String getMessage() {
+        if (customMessage != null && !customMessage.isEmpty()) {
+            return errorType.getMessage() + ": " + customMessage;
+        } else {
+            return errorType.getMessage();
+        }
     }
 }
