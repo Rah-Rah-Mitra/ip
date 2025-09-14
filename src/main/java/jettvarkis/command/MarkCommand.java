@@ -1,44 +1,64 @@
 package jettvarkis.command;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
-import jettvarkis.ui.Ui;
 import jettvarkis.TaskList;
-import jettvarkis.storage.Storage;
 import jettvarkis.exception.JettVarkisException;
+import jettvarkis.storage.Storage;
+import jettvarkis.task.Task;
+import jettvarkis.ui.Ui;
 
 /**
- * Represents a Mark command. This command marks a task as done.
+ * Represents a Mark command. This command marks one or more tasks as done.
  */
 public class MarkCommand extends Command {
 
-    private final int taskIndex;
+    private final int[] taskIndices;
 
     /**
-     * Constructs a MarkCommand with the specified task index.
+     * Constructs a MarkCommand with the specified task indices.
      *
-     * @param taskIndex The zero-based index of the task to be marked.
+     * @param taskIndices
+     *            The zero-based indices of the tasks to be marked.
      */
-    public MarkCommand(int taskIndex) {
-        this.taskIndex = taskIndex;
+    public MarkCommand(int... taskIndices) {
+        this.taskIndices = taskIndices;
     }
 
     /**
      * Executes the Mark command.
-     * Marks the task at the specified index as done and displays a message to the user.
+     * Marks the tasks at the specified indices as done and displays a message to the
+     * user.
      * The changes are then saved to storage.
      *
-     * @param ui The Ui object to interact with the user.
-     * @param tasks The TaskList object containing the tasks.
-     * @param storage The Storage object to save the tasks.
-     * @throws JettVarkisException If the task index is invalid or the task is not found.
+     * @param ui
+     *            The Ui object to interact with the user.
+     * @param tasks
+     *            The TaskList object containing the tasks.
+     * @param storage
+     *            The Storage object to save the tasks.
+     * @throws JettVarkisException
+     *             If any task index is invalid or a task is not found.
      */
     @Override
     public void execute(Ui ui, TaskList tasks, Storage storage) throws JettVarkisException {
-        tasks.getTask(taskIndex).ifPresentOrElse(task -> {
-            task.markAsDone();
-            ui.showMarkedTask(task);
-        }, () -> ui.showError(JettVarkisException.ErrorType.TASK_NOT_FOUND.getMessage()));
-        storage.save(tasks.getTasks());
+        List<Task> markedTasks = new ArrayList<>();
+        for (int taskIndex : taskIndices) {
+            tasks.getTask(taskIndex).ifPresentOrElse(task -> {
+                task.markAsDone();
+                markedTasks.add(task);
+            }, () -> {
+                try {
+                    throw new JettVarkisException(JettVarkisException.ErrorType.TASK_NOT_FOUND);
+                } catch (JettVarkisException e) {
+                    ui.showError(e.getMessage());
+                }
+            });
+        }
+        if (!markedTasks.isEmpty()) {
+            ui.showMarkedTasks(markedTasks);
+            storage.save(tasks.getTasks());
+        }
     }
 }

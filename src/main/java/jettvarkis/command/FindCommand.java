@@ -1,13 +1,17 @@
 package jettvarkis.command;
 
+import java.util.List;
+
 import jettvarkis.TaskList;
 import jettvarkis.exception.JettVarkisException;
 import jettvarkis.storage.Storage;
 import jettvarkis.task.Task;
 import jettvarkis.ui.Ui;
 
-import java.util.List;
-
+/**
+ * Represents a Find command. This command finds tasks that contain the given
+ * keyword.
+ */
 public class FindCommand extends Command {
     private String keyword;
 

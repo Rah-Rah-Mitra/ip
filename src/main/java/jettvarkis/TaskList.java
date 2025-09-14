@@ -1,13 +1,13 @@
 package jettvarkis;
 
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.List;
+import java.util.Optional;
 
-import jettvarkis.task.Task;
-import jettvarkis.task.Todo;
 import jettvarkis.task.Deadline;
 import jettvarkis.task.Event;
+import jettvarkis.task.Task;
+import jettvarkis.task.Todo;
 
 /**
  * Represents a list of tasks in the JettVarkis application.
@@ -56,6 +56,18 @@ public class TaskList {
     }
 
     /**
+     * Adds a new Deadline task to the list with a LocalDateTime object.
+     *
+     * @param description
+     *            The description of the Deadline task.
+     * @param by
+     *            The deadline of the task as a LocalDateTime object.
+     */
+    public void addDeadline(String description, java.time.LocalDateTime by) {
+        tasks.add(new Deadline(description, by));
+    }
+
+    /**
      * Adds a new Event task to the list.
      *
      * @param description
@@ -67,18 +79,6 @@ public class TaskList {
      */
     public void addEvent(String description, String from, String to) {
         tasks.add(new Event(description, from, to));
-    }
-
-    /**
-     * Adds a new Deadline task to the list with a LocalDateTime object.
-     *
-     * @param description
-     *            The description of the Deadline task.
-     * @param by
-     *            The deadline of the task as a LocalDateTime object.
-     */
-    public void addDeadline(String description, java.time.LocalDateTime by) {
-        tasks.add(new Deadline(description, by));
     }
 
     /**
@@ -128,6 +128,15 @@ public class TaskList {
         return tasks.size();
     }
 
+    /**
+     * Finds and returns a list of tasks that contain the given keyword in their
+     * string representation.
+     * The search is case-insensitive.
+     *
+     * @param keyword
+     *            The keyword to search for.
+     * @return A list of tasks that match the keyword.
+     */
     public List<Task> findTasks(String keyword) {
         ArrayList<Task> foundTasks = new ArrayList<>();
         for (Task task : tasks) {

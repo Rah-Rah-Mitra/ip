@@ -1,0 +1,17 @@
+.label {
+    -fx-background-color: #007AFF; /* Blue for Duke */
+    -fx-text-fill: white;
+    -fx-background-radius: 15px 15px 15px 0;
+    -fx-padding: 10px;
+    -fx-font-family: "Arial";
+    -fx-font-size: 14px;
+}
+
+.reply-label {
+    -fx-background-color: #4A4C52; /* Grey for User */
+    -fx-background-radius: 15px 15px 0 15px;
+}
+
+#displayPicture {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0.5, 2, 2);
+}
