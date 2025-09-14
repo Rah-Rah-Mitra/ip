@@ -1,3 +1,4 @@
+
 # AI-Assisted iP Development Log
 
 This document chronicles the use of AI tools in the development of this project.
@@ -34,7 +35,11 @@ In Week 4, the application's command-line interface was replaced with a graphica
 
 ## Week 5
 
-*Observations and AI usage for this week...*
+For the BCD-Extension increment in Week 5, AI was instrumental in two key areas: improving object-oriented design and adding a new trivia feature.
+
+First, I assisted in a major refactoring effort to enhance code quality. I identified duplicated logic in the `DeleteCommand`, `MarkCommand`, and `UnmarkCommand` classes and suggested abstracting it into new base classes like `MultiTaskCommand` and `UpdateStatusCommand`. I then helped perform this refactoring, reducing code redundancy and improving maintainability. I also assisted in modernizing the `Parser` by converting its logic to use Java Streams.
+
+Second, I accelerated the development of the new trivia feature by replicating the existing command design pattern. I analyzed the structure of commands like `ListCommand` and generated a parallel set of classes for the trivia functionality (`TriviaCommand`, `TriviaListCommand`, etc.), ensuring the new feature integrated seamlessly and consistently with the established application architecture.
 
 ## Week 6
 
