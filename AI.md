@@ -10,11 +10,11 @@ The primary development environment utilizes the **VS Code MCP (Multi-platform C
 
 The Gemini agent provides a suite of capabilities to accelerate development, including:
 
-- **Code Generation and Modification:** Writing new code from scratch, refactoring existing code, and fixing bugs based on natural language prompts.
-- **Codebase Comprehension:** Reading and analyzing the entire project to understand existing conventions, structures, and logic.
-- **File System Operations:** Creating, deleting, and modifying files and directories.
-- **Shell Command Execution:** Running build scripts, executing tests, and interacting with version control (Git) to manage the project lifecycle.
-- **Search and Discovery:** Finding relevant code snippets, files, or configurations across the workspace.
+*   **Code Generation and Modification:** Writing new code from scratch, refactoring existing code, and fixing bugs based on natural language prompts.
+*   **Codebase Comprehension:** Reading and analyzing the entire project to understand existing conventions, structures, and logic.
+*   **File System Operations:** Creating, deleting, and modifying files and directories.
+*   **Shell Command Execution:** Running build scripts, executing tests, and interacting with version control (Git) to manage the project lifecycle.
+*   **Search and Discovery:** Finding relevant code snippets, files, or configurations across the workspace.
 
 This integrated approach aims to minimize manual coding by leveraging AI to handle tasks ranging from simple boilerplate to complex logic implementation, allowing the developer to focus on high-level design and problem-solving.
 
@@ -30,12 +30,12 @@ Following the merge of the Gradle support branch in Week 3, the focus shifted to
 
 ## Week 4
 
-_Observations and AI usage for this week..._
+In Week 4, the application's command-line interface was replaced with a graphical user interface using JavaFX. I assisted in this transition by focusing on the UI's visual appeal. I generated the CSS stylesheets to define the look and feel of the application, creating rules for the main window layout and the dialog boxes used for conversations. This included styling for colors, fonts, and spacing. Furthermore, I helped link these stylesheets to the FXML layout files and apply specific CSS classes to elements, such as the bot's replies, to visually distinguish them from user inputs.
 
 ## Week 5
 
-_Observations and AI usage for this week..._
+*Observations and AI usage for this week...*
 
 ## Week 6
 
-_Observations and AI usage for this week..._
+*Observations and AI usage for this week...*
