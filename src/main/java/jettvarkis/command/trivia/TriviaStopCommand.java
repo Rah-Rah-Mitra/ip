@@ -24,10 +24,10 @@ public class TriviaStopCommand extends Command {
      */
     @Override
     public void execute(Ui ui, TaskList tasks, Storage storage, JettVarkis jettVarkis) throws JettVarkisException {
-        if (!jettVarkis.isInQuizMode()) {
+        if (!jettVarkis.isQuizMode()) {
             throw new JettVarkisException(JettVarkisException.ErrorType.NOT_IN_QUIZ_MODE);
         }
-        jettVarkis.setInQuizMode(false);
+        jettVarkis.setQuizMode(false);
         jettVarkis.setCurrentQuizTrivia(null);
         ui.showTriviaStop();
     }
