@@ -26,7 +26,7 @@ In Week 2, AI was heavily utilized to build the core application logic, covering
 
 ## Week 3
 
-_Observations and AI usage for this week..._
+Following the merge of the Gradle support branch in Week 3, the focus shifted to updating the build and test process. I assisted in transitioning the CI workflow to use Gradle. This involved modifying the `.github/workflows/ci.yml` file to replace the previous manual test execution commands with the appropriate Gradle tasks (e.g., `./gradlew build`). This change aligned the project's automated testing environment with its new Gradle-based build system.
 
 ## Week 4
 
