@@ -17,24 +17,57 @@ Nice! I've marked this task as done:
 OK, I've marked this task as not done yet:
   [T][ ] borrow book
 Got it. I've added this task:
-  [D][ ] return book (by: Sunday)
+  [D][ ] submit report (by: Oct 15 2025, 12:00am)
 Now you have 4 tasks in the list.
 Got it. I've added this task:
-  [E][ ] project meeting (from: Mon 2pm to: 4pm)
+  [D][ ] pay bills (by: Nov 01 2025, 12:00am)
 Now you have 5 tasks in the list.
+Got it. I've added this task:
+  [E][ ] team meeting (from: Oct 10 2025, 12:00am to: Oct 10 2025, 12:00am)
+Now you have 6 tasks in the list.
+Got it. I've added this task:
+  [E][ ] project review (from: Dec 01 2025, 12:00am to: Dec 05 2025, 12:00am)
+Now you have 7 tasks in the list.
+    OOPS!!! Did you mean to use a format like 'd/M/yyyy HHmm'? Still adding as a string.
+Got it. I've added this task:
+  [D][ ] buy groceries (by: 10-10-2025)
+Now you have 8 tasks in the list.
+    OOPS!!! Did you mean to use a format like 'd/M/yyyy HHmm'? Still adding as a string.
+Got it. I've added this task:
+  [E][ ] party (from: 2025/11/11 to: 2025/11/12)
+Now you have 9 tasks in the list.
+Got it. I've added this task:
+  [D][ ] call mom (by: tomorrow)
+Now you have 10 tasks in the list.
+Got it. I've added this task:
+  [E][ ] dinner (from: tonight to: tomorrow morning)
+Now you have 11 tasks in the list.
 Here are the tasks in your list:
 1.[T][ ] borrow book
 2.[T][ ] read novel
 3.[T][ ] buy groceries
-4.[D][ ] return book (by: Sunday)
-5.[E][ ] project meeting (from: Mon 2pm to: 4pm)
+4.[D][ ] submit report (by: Oct 15 2025, 12:00am)
+5.[D][ ] pay bills (by: Nov 01 2025, 12:00am)
+6.[E][ ] team meeting (from: Oct 10 2025, 12:00am to: Oct 10 2025, 12:00am)
+7.[E][ ] project review (from: Dec 01 2025, 12:00am to: Dec 05 2025, 12:00am)
+8.[D][ ] buy groceries (by: 10-10-2025)
+9.[E][ ] party (from: 2025/11/11 to: 2025/11/12)
+10.[D][ ] call mom (by: tomorrow)
+11.[E][ ] dinner (from: tonight to: tomorrow morning)
 Noted. I've removed this task:
   [T][ ] buy groceries
-Now you have 4 tasks in the list.
+Now you have 10 tasks in the list.
 Nice! I've marked this task as done:
   [T][X] read novel
 Nice! I've marked this task as done:
-  [D][X] return book (by: Sunday)
+  [D][X] submit report (by: Oct 15 2025, 12:00am)
+Here are the matching tasks in your list:
+  1.[T][ ] borrow book
+Here are the matching tasks in your list:
+  1.[D][ ] buy groceries (by: 10-10-2025)
+Here are the matching tasks in your list:
+  1.[E][ ] team meeting (from: Oct 10 2025, 12:00am to: Oct 10 2025, 12:00am)
+No matching tasks found in your list: Jett Varkis is sad.
     OOPS!!! The description of a todo cannot be empty.
     OOPS!!! The description of a deadline cannot be empty.
     OOPS!!! The date/time of a deadline cannot be empty.

@@ -1,13 +1,27 @@
+package jettvarkis;
+
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class JettVarkisTest {
+
+    private static final String FILE_PATH = "../data/jettvarkis.txt";
+
+    @BeforeEach
+    public void setUp() {
+        File dataDir = new File("data");
+        if (dataDir.exists()) {
+            deleteDirectory(dataDir);
+        }
+    }
 
     @Test
     public void testJettVarkis() {
@@ -41,11 +55,23 @@ public class JettVarkisTest {
 
             JettVarkis.main(new String[0]);
 
-            assertEquals(expectedOutput.trim().replaceAll("\r\n", "\n"),
-                    baos.toString().trim().replaceAll("\r\n", "\n"));
+            assertEquals(expectedOutput.trim().replaceAll("\\r\\n", "\n"),
+                    baos.toString().trim().replaceAll("\\r\\n", "\n"));
         } finally {
             System.setIn(originalIn);
             System.setOut(originalOut);
         }
+    }
+
+    private void deleteDirectory(File directory) {
+        if (directory.isDirectory()) {
+            File[] files = directory.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    deleteDirectory(file);
+                }
+            }
+        }
+        directory.delete();
     }
 }
