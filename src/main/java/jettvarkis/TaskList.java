@@ -3,6 +3,7 @@ package jettvarkis;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import jettvarkis.task.Deadline;
 import jettvarkis.task.Event;
@@ -30,6 +31,7 @@ public class TaskList {
      *            The ArrayList of tasks to initialize the TaskList with.
      */
     public TaskList(ArrayList<Task> tasks) {
+        assert tasks != null;
         this.tasks = tasks;
     }
 
@@ -40,6 +42,7 @@ public class TaskList {
      *            The description of the Todo task.
      */
     public void addTodo(String description) {
+        assert description != null;
         tasks.add(new Todo(description));
     }
 
@@ -52,6 +55,8 @@ public class TaskList {
      *            The deadline of the task (e.g., "2/12/2019 1800").
      */
     public void addDeadline(String description, String by) {
+        assert description != null;
+        assert by != null;
         tasks.add(new Deadline(description, by));
     }
 
@@ -64,6 +69,8 @@ public class TaskList {
      *            The deadline of the task as a LocalDateTime object.
      */
     public void addDeadline(String description, java.time.LocalDateTime by) {
+        assert description != null;
+        assert by != null;
         tasks.add(new Deadline(description, by));
     }
 
@@ -78,6 +85,9 @@ public class TaskList {
      *            The end time of the event.
      */
     public void addEvent(String description, String from, String to) {
+        assert description != null;
+        assert from != null;
+        assert to != null;
         tasks.add(new Event(description, from, to));
     }
 
@@ -92,6 +102,9 @@ public class TaskList {
      *            The end time of the event as a LocalDateTime object.
      */
     public void addEvent(String description, java.time.LocalDateTime from, java.time.LocalDateTime to) {
+        assert description != null;
+        assert from != null;
+        assert to != null;
         tasks.add(new Event(description, from, to));
     }
 
@@ -138,13 +151,10 @@ public class TaskList {
      * @return A list of tasks that match the keyword.
      */
     public List<Task> findTasks(String keyword) {
-        ArrayList<Task> foundTasks = new ArrayList<>();
-        for (Task task : tasks) {
-            if (task.toString().toLowerCase().contains(keyword.toLowerCase())) {
-                foundTasks.add(task);
-            }
-        }
-        return foundTasks;
+        assert keyword != null;
+        return tasks.stream()
+                .filter(task -> task.toString().toLowerCase().contains(keyword.toLowerCase()))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -155,6 +165,7 @@ public class TaskList {
      * @return The deleted Task object.
      */
     public Task deleteTask(int index) {
+        assert index >= 0 && index < tasks.size() : "Index out of bounds: " + index;
         return tasks.remove(index);
     }
 }

@@ -14,18 +14,15 @@ import jettvarkis.ui.Ui;
 /**
  * Represents a Delete command. This command deletes one or more tasks from the list.
  */
-public class DeleteCommand extends Command {
-
-    private final int[] taskIndices;
+public class DeleteCommand extends MultiTaskCommand {
 
     /**
      * Constructs a DeleteCommand with the specified task indices.
      *
-     * @param taskIndices
-     *            The zero-based indices of the tasks to be deleted.
+     * @param taskIndices The zero-based indices of the tasks to be deleted.
      */
     public DeleteCommand(int... taskIndices) {
-        this.taskIndices = taskIndices;
+        super(taskIndices);
     }
 
     /**
@@ -34,17 +31,18 @@ public class DeleteCommand extends Command {
      * confirmation message to the user,
      * and saves the updated task list to storage.
      *
-     * @param ui
-     *            The Ui object to interact with the user.
-     * @param tasks
-     *            The TaskList object from which to delete the tasks.
-     * @param storage
-     *            The Storage object to save the tasks.
-     * @throws JettVarkisException
-     *             If any task index is out of bounds or a task is not found.
+     * @param ui The Ui object to interact with the user.
+     * @param tasks The TaskList object from which to delete the tasks.
+     * @param storage The Storage object to save the tasks.
+     * @param jettVarkis The main JettVarkis object (not used in this command).
+     * @throws JettVarkisException If any task index is out of bounds.
      */
     @Override
-    public void execute(Ui ui, TaskList tasks, Storage storage) throws JettVarkisException {
+    public void execute(Ui ui, TaskList tasks, Storage storage,
+                        jettvarkis.JettVarkis jettVarkis) throws JettVarkisException {
+        assert ui != null;
+        assert tasks != null;
+        assert storage != null;
         // Sort indices in descending order to avoid issues with shifting indices after deletion
         Integer[] sortedIndices = Arrays.stream(taskIndices).boxed()
                 .sorted(Comparator.reverseOrder())

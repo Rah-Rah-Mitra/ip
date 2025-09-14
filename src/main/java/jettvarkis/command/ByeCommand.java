@@ -21,7 +21,8 @@ public class ByeCommand extends Command {
      *            The Storage object (not used in this command).
      */
     @Override
-    public void execute(Ui ui, TaskList tasks, Storage storage) {
+    public void execute(Ui ui, TaskList tasks, Storage storage, jettvarkis.JettVarkis jettVarkis) {
+        assert ui != null : "Ui object cannot be null";
         ui.showGoodbye();
     }
 

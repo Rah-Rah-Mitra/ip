@@ -22,6 +22,7 @@ public class TodoCommand extends Command {
      *            The description of the Todo task.
      */
     public TodoCommand(String description) {
+        assert description != null && !description.trim().isEmpty();
         this.description = description;
     }
 
@@ -37,13 +38,21 @@ public class TodoCommand extends Command {
      *            The TaskList object to add the task to.
      * @param storage
      *            The Storage object to save the tasks.
+     * @param jettVarkis
+     *            The main JettVarkis object (not used in this command).
      * @throws JettVarkisException
      *             If there is an error during execution (e.g., storage error).
      */
     @Override
-    public void execute(Ui ui, TaskList tasks, Storage storage) throws JettVarkisException {
+    public void execute(Ui ui, TaskList tasks, Storage storage,
+                        jettvarkis.JettVarkis jettVarkis) throws JettVarkisException {
+        assert ui != null;
+        assert tasks != null;
+        assert storage != null;
         tasks.addTodo(description);
+        assert tasks.getTaskCount() > 0 : "Task list should not be empty after adding a task";
         Optional<Task> task = tasks.getTask(tasks.getTaskCount() - 1);
+        assert task.isPresent() : "Newly added task should be present";
         task.ifPresent(value -> ui.showAddedTask(value, tasks.getTaskCount()));
         storage.save(tasks.getTasks());
     }
