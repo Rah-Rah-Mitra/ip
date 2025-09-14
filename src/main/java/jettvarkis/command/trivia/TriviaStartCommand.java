@@ -30,7 +30,7 @@ public class TriviaStartCommand extends Command {
             throw new JettVarkisException(JettVarkisException.ErrorType.EMPTY_TRIVIA_LIST);
         }
 
-        jettVarkis.setInQuizMode(true);
+        jettVarkis.setQuizMode(true);
         ui.showTriviaStart(jettVarkis.getCurrentTriviaCategory());
         jettVarkis.askNextQuestion();
     }

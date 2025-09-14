@@ -19,7 +19,7 @@ public class EventCommand extends Command {
     private final LocalDateTime to;
     private final String originalFrom;
     private final String originalTo;
-    private final boolean showWarning;
+    private final boolean shouldShowWarning;
 
     /**
      * Constructs an EventCommand with the specified description, start time, and
@@ -39,7 +39,7 @@ public class EventCommand extends Command {
         this.to = to;
         this.originalFrom = null;
         this.originalTo = null;
-        this.showWarning = false;
+        this.shouldShowWarning = false;
     }
 
     /**
@@ -60,7 +60,7 @@ public class EventCommand extends Command {
         this.to = null;
         this.originalFrom = from;
         this.originalTo = to;
-        this.showWarning = false;
+        this.shouldShowWarning = false;
     }
 
     /**
@@ -73,17 +73,17 @@ public class EventCommand extends Command {
      *            The start time of the event as a string.
      * @param to
      *            The end time of the event as a string.
-     * @param showWarning
+     * @param shouldShowWarning
      *            A boolean indicating whether to show a warning about date format.
      */
-    public EventCommand(String description, String from, String to, boolean showWarning) {
+    public EventCommand(String description, String from, String to, boolean shouldShowWarning) {
         assert description != null && !description.trim().isEmpty();
         this.description = description;
         this.from = null;
         this.to = null;
         this.originalFrom = from;
         this.originalTo = to;
-        this.showWarning = showWarning;
+        this.shouldShowWarning = shouldShowWarning;
     }
 
     /**
@@ -110,7 +110,7 @@ public class EventCommand extends Command {
         assert ui != null;
         assert tasks != null;
         assert storage != null;
-        if (showWarning) {
+        if (shouldShowWarning) {
             ui.showError("Did you mean to use a format like 'd/M/yyyy HHmm'? Still adding as a string.");
         }
         if (from != null && to != null) {

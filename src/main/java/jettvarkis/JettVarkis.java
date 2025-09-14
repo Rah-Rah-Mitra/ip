@@ -20,7 +20,7 @@ public class JettVarkis {
     private final Storage storage;
     private TriviaList triviaList;
     private String currentTriviaCategory;
-    private boolean inQuizMode = false;
+    private boolean isQuizMode = false;
     private Trivia currentQuizTrivia = null;
 
     /**
@@ -64,15 +64,15 @@ public class JettVarkis {
             java.io.PrintStream old = System.out;
             System.setOut(ps);
 
-            if (inQuizMode) {
+            if (isQuizMode) {
                 // Handle quiz answers
                 if (input.equalsIgnoreCase("trivia stop")) {
-                    setInQuizMode(false);
+                    setQuizMode(false);
                     setCurrentQuizTrivia(null);
                     ui.showTriviaStop();
                 } else if (currentQuizTrivia != null) {
                     checkAnswer(input);
-                    if (inQuizMode) { // if not stopped
+                    if (isQuizMode) { // if not stopped
                         askNextQuestion();
                     }
                 }
@@ -108,7 +108,7 @@ public class JettVarkis {
             ui.showTriviaQuestion(currentQuizTrivia);
         } else {
             ui.showError("The current trivia category is empty!");
-            setInQuizMode(false);
+            setQuizMode(false);
         }
     }
 
@@ -145,12 +145,12 @@ public class JettVarkis {
         return storage;
     }
 
-    public boolean isInQuizMode() {
-        return inQuizMode;
+    public boolean isQuizMode() {
+        return isQuizMode;
     }
 
-    public void setInQuizMode(boolean inQuizMode) {
-        this.inQuizMode = inQuizMode;
+    public void setQuizMode(boolean isQuizMode) {
+        this.isQuizMode = isQuizMode;
     }
 
     public Trivia getCurrentQuizTrivia() {
