@@ -8,6 +8,14 @@ But the journey doesn't end with mere tasks. Delve into the archives of ancient 
 
 What burdens shall we catalog today?
 
+## Features
+
+### Trivia
+
+_"The ancient archives of knowledge await your exploration."_
+
+Delve into the archives of ancient wisdom and test your knowledge across various realms. For even after a thousand years, there is always more to learn.
+
 ## Setting up in Intellij
 
 Prerequisites: JDK 17, update Intellij to the most recent version.
