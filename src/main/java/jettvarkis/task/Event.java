@@ -2,6 +2,7 @@ package jettvarkis.task;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 /**
  * Represents an Event task. An Event task has a description, a start time, and an end time.
@@ -54,8 +55,9 @@ public class Event extends Task {
      */
     @Override
     public String toString() {
-        String fromStr = from != null ? from.format(DateTimeFormatter.ofPattern("MMM dd yyyy, h:mma")) : originalFrom;
-        String toStr = to != null ? to.format(DateTimeFormatter.ofPattern("MMM dd yyyy, h:mma")) : originalTo;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy, h:mma", Locale.US);
+        String fromStr = from != null ? from.format(formatter) : originalFrom;
+        String toStr = to != null ? to.format(formatter) : originalTo;
         return "[E]" + super.toString() + " (from: " + fromStr + " to: " + toStr + ")";
     }
 
