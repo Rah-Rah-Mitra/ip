@@ -5,7 +5,7 @@ import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import jettvarkis.gui.MainWindow;
 
@@ -21,8 +21,8 @@ public class Main extends Application {
         assert stage != null;
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/MainWindow.fxml"));
-            AnchorPane ap = fxmlLoader.load();
-            assert ap != null : "FXML loading failed, AnchorPane is null";
+            VBox ap = fxmlLoader.load();
+            assert ap != null : "FXML loading failed, VBox is null";
             Scene scene = new Scene(ap);
             stage.setScene(scene);
             fxmlLoader.<MainWindow>getController().setJettVarkis(jettVarkis);
