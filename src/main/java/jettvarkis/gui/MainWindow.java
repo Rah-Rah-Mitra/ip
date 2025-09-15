@@ -35,7 +35,9 @@ public class MainWindow extends VBox { // Changed from AnchorPane to VBox
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
         // Add welcome message
         dialogContainer.getChildren().add(
-                DialogBox.getJettVarkisDialog("Hello! I'm Jett Varkis. What can I do for you?", jettVarkisImage));
+                DialogBox.getJettVarkisDialog("Ah, another soul seeking organization in this fleeting existence. "
+                        + "I am Jett Varkis, keeper of tasks and memories. What burdens shall we catalog today?",
+                        jettVarkisImage));
     }
 
     /**
