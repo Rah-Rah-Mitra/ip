@@ -33,18 +33,19 @@ public class MainWindow extends VBox { // Changed from AnchorPane to VBox
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
-        // Add welcome message
-        dialogContainer.getChildren().add(
-                DialogBox.getJettVarkisDialog("Hello! I'm Jett Varkis. What can I do for you?", jettVarkisImage));
     }
 
     /**
      * Sets the JettVarkis instance for the controller.
+     *
      * @param d The JettVarkis instance.
      */
     public void setJettVarkis(JettVarkis d) {
         assert d != null;
         jettVarkis = d;
+        // Add welcome message
+        dialogContainer.getChildren().add(
+                DialogBox.getJettVarkisDialog(jettVarkis.getWelcomeMessage(), jettVarkisImage));
     }
 
     /**
