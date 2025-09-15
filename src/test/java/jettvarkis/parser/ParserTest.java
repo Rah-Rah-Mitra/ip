@@ -124,7 +124,7 @@ public class ParserTest {
 
     @Test
     public void testParseEventCommandInvalidTimeOrder() {
-        assertThrows(JettVarkisException.class, () -> 
+        assertThrows(JettVarkisException.class, () ->
             Parser.parse("event meeting /from 2025-08-27 1600 /to 2025-08-27 1400"));
     }
 
