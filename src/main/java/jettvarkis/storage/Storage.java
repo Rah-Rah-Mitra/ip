@@ -44,14 +44,22 @@ public class Storage {
         ArrayList<Task> tasks = new ArrayList<>();
         File file = new File(filePath);
 
+        if (file.isDirectory()) {
+            throw new JettVarkisException(JettVarkisException.ErrorType.FILE_IS_DIRECTORY);
+        }
+
         if (!file.exists()) {
             try {
                 file.getParentFile().mkdirs();
                 file.createNewFile();
             } catch (IOException e) {
-                throw new JettVarkisException(JettVarkisException.ErrorType.FILE_OPERATION_ERROR);
+                throw new JettVarkisException(JettVarkisException.ErrorType.FILE_WRITE_DENIED);
             }
             return tasks; // Return empty list as the file is new
+        }
+
+        if (!file.canRead()) {
+            throw new JettVarkisException(JettVarkisException.ErrorType.FILE_READ_DENIED);
         }
 
         try (Scanner scanner = new Scanner(file)) {
@@ -79,6 +87,16 @@ public class Storage {
      */
     public void save(ArrayList<Task> tasks) throws JettVarkisException {
         assert tasks != null;
+        File file = new File(filePath);
+
+        if (file.isDirectory()) {
+            throw new JettVarkisException(JettVarkisException.ErrorType.FILE_IS_DIRECTORY);
+        }
+
+        if (file.exists() && !file.canWrite()) {
+            throw new JettVarkisException(JettVarkisException.ErrorType.FILE_WRITE_DENIED);
+        }
+
         try (FileWriter writer = new FileWriter(filePath)) {
             for (Task task : tasks) {
                 assert task.toFileString() != null : "Task file string cannot be null";
