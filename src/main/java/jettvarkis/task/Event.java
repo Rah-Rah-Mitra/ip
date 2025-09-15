@@ -59,6 +59,21 @@ public class Event extends Task {
         return "[E]" + super.toString() + " (from: " + fromStr + " to: " + toStr + ")";
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (!super.equals(obj)) {
+            return false;
+        }
+        Event other = (Event) obj;
+        boolean fromEquals = (from == null && other.from == null) || (from != null && from.equals(other.from));
+        boolean toEquals = (to == null && other.to == null) || (to != null && to.equals(other.to));
+        boolean originalFromEquals = (originalFrom == null && other.originalFrom == null)
+                || (originalFrom != null && originalFrom.equals(other.originalFrom));
+        boolean originalToEquals = (originalTo == null && other.originalTo == null)
+                || (originalTo != null && originalTo.equals(other.originalTo));
+        return fromEquals && toEquals && originalFromEquals && originalToEquals;
+    }
+
     /**
      * Returns a string representation of the Event task for saving to a file.
      *

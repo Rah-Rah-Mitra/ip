@@ -1,17 +1,46 @@
-.label {
-    -fx-background-color: #007AFF; /* Blue for Jett Varkis */
-    -fx-text-fill: white;
-    -fx-background-radius: 15px 15px 15px 0;
+/* General styling for all dialog boxes */
+.dialog-box {
     -fx-padding: 10px;
-    -fx-font-family: "Arial";
-    -fx-font-size: 14px;
+    -fx-spacing: 10px;
 }
 
-.reply-label {
-    -fx-background-color: #4A4C52; /* Grey for User */
+/* Styling for the text label within a dialog box */
+.dialog-box .label {
+    -fx-text-fill: white;
+    -fx-padding: 12px;
+    -fx-wrap-text: true;
+    -fx-font-family: "Arial";
+    -fx-font-size: 16px; /* Increased font size */
+    -fx-background-radius: 15px;
+}
+
+/* Styling for the bot's dialog box */
+.bot.dialog-box {
+    -fx-alignment: center-left;
+}
+
+.bot .label {
+    -fx-background-color: #007AFF; /* Blue */
+    -fx-background-radius: 15px 15px 15px 0;
+}
+
+/* Styling for the user's dialog box */
+.user.dialog-box {
+    -fx-alignment: center-right;
+}
+
+.user .label {
+    -fx-background-color: #4A4C52; /* Grey */
     -fx-background-radius: 15px 15px 0 15px;
 }
 
-#displayPicture {
+/* Styling for error messages */
+.error .label {
+    -fx-background-color: #D32F2F; /* Red for errors */
+    -fx-text-fill: white;
+}
+
+/* Styling for the display picture */
+.display-picture {
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0.5, 2, 2);
 }

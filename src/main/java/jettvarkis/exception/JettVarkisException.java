@@ -12,37 +12,58 @@ public class JettVarkisException extends Exception {
      * Each error type has an associated message.
      */
     public enum ErrorType {
-        EMPTY_TODO_DESCRIPTION("The description of a todo cannot be empty."),
+        EMPTY_TODO_DESCRIPTION(
+                "A task without purpose... even I cannot inscribe emptiness into the grimoire. "
+                + "Usage: todo [description]"),
         EMPTY_DEADLINE_DESCRIPTION(
-                "The description of a deadline cannot be empty."),
+                "The chronicles require substance. A deadline without meaning holds no power over time. "
+                + "Usage: deadline [description] /by [date/time]"),
         EMPTY_DEADLINE_BY(
-                "The date/time of a deadline cannot be empty."),
+                "Time flows, but where does this deadline anchor itself? The temporal binding is incomplete. "
+                + "Usage: deadline [description] /by [date/time]"),
         EMPTY_EVENT_DESCRIPTION(
-                "The description of an event cannot be empty."),
+                "Events are moments in time's tapestry. Without description, they fade before they begin. "
+                + "Usage: event [description] /from [date/time] /to [date/time]"),
         EMPTY_EVENT_FROM(
-                "The start time of an event cannot be empty."),
+                "When does this moment begin? Even I need a starting point in time's endless flow. "
+                + "Usage: event [description] /from [date/time] /to [date/time]"),
         EMPTY_EVENT_TO(
-                "The end time of an event cannot be empty."),
+                "All things must end, yet this event lacks conclusion. Time demands boundaries. "
+                + "Usage: event [description] /from [date/time] /to [date/time]"),
         MISSING_TASK_NUMBER(
-                "The task number is missing."),
+                "Which thread in the tapestry of tasks do you wish to touch? A number is required. "
+                + "Usage: mark/unmark/delete [task number]"),
         INVALID_TASK_NUMBER(
-                "The task number provided is invalid."),
+                "This number points to nothing in the void. Choose from what exists in your grimoire. "
+                + "Use 'list' to see available tasks."),
         TASK_NOT_FOUND(
-                "Task not found."),
+                "The mists of time obscure this task from view. It dwells not within your collection."),
         UNKNOWN_COMMAND(
-                "I'm sorry, but I don't know what that means :-("),
+                "These words echo strangely in the halls of memory. I know not this incantation. "
+                + "Use 'help' to see available commands."),
         EMPTY_FIND_KEYWORD(
-                "The keyword for find command cannot be empty."),
+                "To search the depths of memory, one must provide a key. What shall we seek? "
+                + "Usage: find [keyword]"),
         FILE_OPERATION_ERROR(
-                "Error during file operation."),
+                "The scrolls resist our touch. Some barrier prevents the preservation of knowledge."),
         CORRUPTED_DATA_ERROR(
-                "Data file is corrupted."),
-        EMPTY_TRIVIA_LIST("The current trivia list is empty."),
-        INVALID_TRIVIA_INDEX("The trivia item number provided is invalid."),
-        NOT_IN_QUIZ_MODE("You are not currently in quiz mode."),
-        EMPTY_TRIVIA_CATEGORY_NAME("Trivia category name cannot be empty."),
-        TRIVIA_CATEGORY_ALREADY_EXISTS("Trivia category already exists."),
-        TRIVIA_CATEGORY_NOT_FOUND("Trivia category not found.");
+                "Time has worn these records thin. The data speaks in broken whispers."),
+        EMPTY_TRIVIA_LIST("The archive stands empty, holding no wisdom to share in this moment."),
+        INVALID_TRIVIA_INDEX("This path leads to naught. Choose from the knowledge that exists."),
+        NOT_IN_QUIZ_MODE("No trial is in progress. Perhaps you seek to begin one?"),
+        EMPTY_TRIVIA_CATEGORY_NAME("A realm of knowledge requires a name to exist. What shall it be called?"),
+        TRIVIA_CATEGORY_ALREADY_EXISTS("This realm already manifests in the archives. Choose another name."),
+        TRIVIA_CATEGORY_NOT_FOUND("Such a realm of knowledge exists not in these archives."),
+        MULTIPLE_DEADLINE_BY("A deadline can only have one anchor in time. Please specify `/by` only once."),
+        MULTIPLE_EVENT_FROM("An event must have a single beginning. Please specify `/from` only once."),
+        MULTIPLE_EVENT_TO("An event must have a single conclusion. Please specify `/to` only once."),
+        INVALID_EVENT_TIMES(
+                "The beginning of an event must precede its end. Time's arrow flies but one way. "
+                + "Ensure the 'from' time is before the 'to' time."),
+        FILE_IS_DIRECTORY("The path you've indicated leads to a directory, not a scroll of tasks."),
+        FILE_READ_DENIED("The archives are sealed. I lack the permission to read from this file."),
+        FILE_WRITE_DENIED("The archives are protected. I lack the permission to write to this file."),
+        DUPLICATE_TASK("This exact task already exists in your grimoire. A new entry is not needed.");
 
         private final String message;
 

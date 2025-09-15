@@ -56,6 +56,27 @@ public abstract class Task {
     }
 
     /**
+     * Returns the description of the task.
+     *
+     * @return The task description.
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Task other = (Task) obj;
+        return description.equals(other.description);
+    }
+
+    /**
      * Returns a string representation of the task for saving to a file.
      * This method must be implemented by concrete task classes.
      *

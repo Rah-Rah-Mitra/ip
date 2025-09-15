@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import jettvarkis.exception.JettVarkisException;
 import jettvarkis.task.Deadline;
 import jettvarkis.task.Event;
 import jettvarkis.task.Task;
@@ -41,9 +42,13 @@ public class TaskList {
      * @param description
      *            The description of the Todo task.
      */
-    public void addTodo(String description) {
+    public void addTodo(String description) throws JettVarkisException {
         assert description != null;
-        tasks.add(new Todo(description));
+        Task newTask = new Todo(description);
+        if (isDuplicate(newTask)) {
+            throw new JettVarkisException(JettVarkisException.ErrorType.DUPLICATE_TASK);
+        }
+        tasks.add(newTask);
     }
 
     /**
@@ -54,10 +59,14 @@ public class TaskList {
      * @param by
      *            The deadline of the task (e.g., "2/12/2019 1800").
      */
-    public void addDeadline(String description, String by) {
+    public void addDeadline(String description, String by) throws JettVarkisException {
         assert description != null;
         assert by != null;
-        tasks.add(new Deadline(description, by));
+        Task newTask = new Deadline(description, by);
+        if (isDuplicate(newTask)) {
+            throw new JettVarkisException(JettVarkisException.ErrorType.DUPLICATE_TASK);
+        }
+        tasks.add(newTask);
     }
 
     /**
@@ -68,10 +77,14 @@ public class TaskList {
      * @param by
      *            The deadline of the task as a LocalDateTime object.
      */
-    public void addDeadline(String description, java.time.LocalDateTime by) {
+    public void addDeadline(String description, java.time.LocalDateTime by) throws JettVarkisException {
         assert description != null;
         assert by != null;
-        tasks.add(new Deadline(description, by));
+        Task newTask = new Deadline(description, by);
+        if (isDuplicate(newTask)) {
+            throw new JettVarkisException(JettVarkisException.ErrorType.DUPLICATE_TASK);
+        }
+        tasks.add(newTask);
     }
 
     /**
@@ -84,11 +97,15 @@ public class TaskList {
      * @param to
      *            The end time of the event.
      */
-    public void addEvent(String description, String from, String to) {
+    public void addEvent(String description, String from, String to) throws JettVarkisException {
         assert description != null;
         assert from != null;
         assert to != null;
-        tasks.add(new Event(description, from, to));
+        Task newTask = new Event(description, from, to);
+        if (isDuplicate(newTask)) {
+            throw new JettVarkisException(JettVarkisException.ErrorType.DUPLICATE_TASK);
+        }
+        tasks.add(newTask);
     }
 
     /**
@@ -101,11 +118,16 @@ public class TaskList {
      * @param to
      *            The end time of the event as a LocalDateTime object.
      */
-    public void addEvent(String description, java.time.LocalDateTime from, java.time.LocalDateTime to) {
+    public void addEvent(String description, java.time.LocalDateTime from, java.time.LocalDateTime to)
+            throws JettVarkisException {
         assert description != null;
         assert from != null;
         assert to != null;
-        tasks.add(new Event(description, from, to));
+        Task newTask = new Event(description, from, to);
+        if (isDuplicate(newTask)) {
+            throw new JettVarkisException(JettVarkisException.ErrorType.DUPLICATE_TASK);
+        }
+        tasks.add(newTask);
     }
 
     /**
@@ -167,5 +189,14 @@ public class TaskList {
     public Task deleteTask(int index) {
         assert index >= 0 && index < tasks.size() : "Index out of bounds: " + index;
         return tasks.remove(index);
+    }
+
+    private boolean isDuplicate(Task newTask) {
+        for (Task existingTask : tasks) {
+            if (existingTask.equals(newTask)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

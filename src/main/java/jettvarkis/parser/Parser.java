@@ -59,7 +59,7 @@ public class Parser {
      */
     public static Command parse(String fullCommand) throws JettVarkisException {
         assert fullCommand != null;
-        String[] parts = fullCommand.split(" ", 2);
+        String[] parts = fullCommand.trim().split("\\s+", 2);
         String command = parts[0];
         String content = parts.length > 1 ? parts[1] : null;
 
@@ -107,11 +107,14 @@ public class Parser {
         if (content == null || content.trim().isEmpty()) {
             throw new JettVarkisException(JettVarkisException.ErrorType.MISSING_TASK_NUMBER);
         }
-        String[] indexStrings = content.split("\\s+");
+        String[] indexStrings = content.trim().split("\\s+");
         try {
             int[] taskIndices = Arrays.stream(indexStrings)
                     .mapToInt(s -> Integer.parseInt(s) - 1)
                     .toArray();
+            if (Arrays.stream(taskIndices).anyMatch(i -> i < 0)) {
+                throw new JettVarkisException(JettVarkisException.ErrorType.INVALID_TASK_NUMBER);
+            }
             return new MarkCommand(taskIndices);
         } catch (NumberFormatException e) {
             throw new JettVarkisException(JettVarkisException.ErrorType.INVALID_TASK_NUMBER);
@@ -131,11 +134,14 @@ public class Parser {
         if (content == null || content.trim().isEmpty()) {
             throw new JettVarkisException(JettVarkisException.ErrorType.MISSING_TASK_NUMBER);
         }
-        String[] indexStrings = content.split("\\s+");
+        String[] indexStrings = content.trim().split("\\s+");
         try {
             int[] taskIndices = Arrays.stream(indexStrings)
                     .mapToInt(s -> Integer.parseInt(s) - 1)
                     .toArray();
+            if (Arrays.stream(taskIndices).anyMatch(i -> i < 0)) {
+                throw new JettVarkisException(JettVarkisException.ErrorType.INVALID_TASK_NUMBER);
+            }
             return new UnmarkCommand(taskIndices);
         } catch (NumberFormatException e) {
             throw new JettVarkisException(JettVarkisException.ErrorType.INVALID_TASK_NUMBER);
@@ -173,20 +179,27 @@ public class Parser {
         if (content == null || content.trim().isEmpty()) {
             throw new JettVarkisException(JettVarkisException.ErrorType.EMPTY_DEADLINE_DESCRIPTION);
         }
-        String[] deadlineParts = content.split(" /by ");
+        String[] deadlineParts = content.split("\\s+/by\\s+", 2);
         if (deadlineParts.length < 2) {
             throw new JettVarkisException(JettVarkisException.ErrorType.EMPTY_DEADLINE_BY);
         }
+        if (content.split("\\s+/by\\s+").length > 2) {
+            throw new JettVarkisException(JettVarkisException.ErrorType.MULTIPLE_DEADLINE_BY);
+        }
         String description = deadlineParts[0];
         String by = deadlineParts[1];
+        return createDeadlineCommand(description, by);
+    }
+
+    private static DeadlineCommand createDeadlineCommand(String description, String by) {
         try {
             LocalDateTime byDateTime = parseDateTime(by);
             return new DeadlineCommand(description, byDateTime);
         } catch (DateTimeParseException e) {
             boolean hasDigits = by.matches(".*\\d.*") && (by.contains("/") || by.contains("-"));
             boolean hasSlashOrHyphen = by.contains("/") || by.contains("-");
-            boolean showWarning = hasDigits && hasSlashOrHyphen;
-            return new DeadlineCommand(description, by, showWarning);
+            boolean shouldShowWarning = hasDigits && hasSlashOrHyphen;
+            return new DeadlineCommand(description, by, shouldShowWarning);
         }
     }
 
@@ -204,28 +217,44 @@ public class Parser {
         if (content == null || content.trim().isEmpty()) {
             throw new JettVarkisException(JettVarkisException.ErrorType.EMPTY_EVENT_DESCRIPTION);
         }
-        String[] eventParts = content.split(" /from ");
+        String[] eventParts = content.split("\\s+/from\\s+", 2);
         if (eventParts.length < 2) {
             throw new JettVarkisException(JettVarkisException.ErrorType.EMPTY_EVENT_FROM);
         }
-        String[] fromToParts = eventParts[1].split(" /to ");
+        if (content.split("\\s+/from\\s+").length > 2) {
+            throw new JettVarkisException(JettVarkisException.ErrorType.MULTIPLE_EVENT_FROM);
+        }
+
+        String[] fromToParts = eventParts[1].split("\\s+/to\\s+", 2);
         if (fromToParts.length < 2) {
             throw new JettVarkisException(JettVarkisException.ErrorType.EMPTY_EVENT_TO);
         }
+        if (eventParts[1].split("\\s+/to\\s+").length > 2) {
+            throw new JettVarkisException(JettVarkisException.ErrorType.MULTIPLE_EVENT_TO);
+        }
+
         String description = eventParts[0];
         String from = fromToParts[0];
         String to = fromToParts[1];
+        return createEventCommand(description, from, to);
+    }
+
+    private static EventCommand createEventCommand(String description, String from, String to)
+            throws JettVarkisException {
         try {
             LocalDateTime fromDateTime = parseDateTime(from);
             LocalDateTime toDateTime = parseDateTime(to);
+            if (fromDateTime.isAfter(toDateTime) || fromDateTime.isEqual(toDateTime)) {
+                throw new JettVarkisException(JettVarkisException.ErrorType.INVALID_EVENT_TIMES);
+            }
             return new EventCommand(description, fromDateTime, toDateTime);
         } catch (DateTimeParseException e) {
             boolean fromHasDigits = from.matches(".*\\d.*") && (from.contains("/") || from.contains("-"));
             boolean fromHasSlashOrHyphen = from.contains("/") || from.contains("-");
             boolean toHasDigits = to.matches(".*\\d.*") && (to.contains("/") || to.contains("-"));
             boolean toHasSlashOrHyphen = to.contains("/") || to.contains("-");
-            boolean showWarning = (fromHasDigits && fromHasSlashOrHyphen) || (toHasDigits && toHasSlashOrHyphen);
-            return new EventCommand(description, from, to, showWarning);
+            boolean shouldShowWarning = (fromHasDigits && fromHasSlashOrHyphen) || (toHasDigits && toHasSlashOrHyphen);
+            return new EventCommand(description, from, to, shouldShowWarning);
         }
     }
 
@@ -242,11 +271,14 @@ public class Parser {
         if (content == null || content.trim().isEmpty()) {
             throw new JettVarkisException(JettVarkisException.ErrorType.MISSING_TASK_NUMBER);
         }
-        String[] indexStrings = content.split("\\s+");
+        String[] indexStrings = content.trim().split("\\s+");
         try {
             int[] taskIndices = Arrays.stream(indexStrings)
                     .mapToInt(s -> Integer.parseInt(s) - 1)
                     .toArray();
+            if (Arrays.stream(taskIndices).anyMatch(i -> i < 0)) {
+                throw new JettVarkisException(JettVarkisException.ErrorType.INVALID_TASK_NUMBER);
+            }
             return new DeleteCommand(taskIndices);
         } catch (NumberFormatException e) {
             throw new JettVarkisException(JettVarkisException.ErrorType.INVALID_TASK_NUMBER);
@@ -264,54 +296,74 @@ public class Parser {
 
         switch (subCommand) {
         case "list":
-            boolean showAll = subContent != null && subContent.trim().equals("/l");
-            return new TriviaListCommand(showAll);
+            return parseTriviaList(subContent);
         case "add":
-            if (subContent == null || subContent.trim().isEmpty()) {
-                throw new JettVarkisException(JettVarkisException.ErrorType.UNKNOWN_COMMAND); // Or more specific
-            }
-            String[] triviaParts = subContent.split(" \\| ");
-            if (triviaParts.length < 2) {
-                throw new JettVarkisException(JettVarkisException.ErrorType.UNKNOWN_COMMAND); // Or more specific
-            }
-            return new TriviaAddCommand(triviaParts[0], triviaParts[1]);
+            return parseTriviaAdd(subContent);
         case "select":
-            if (subContent == null || subContent.trim().isEmpty()) {
-                throw new JettVarkisException(JettVarkisException.ErrorType.UNKNOWN_COMMAND); // Or more specific
-            }
-            return new TriviaSelectCommand(subContent);
+            return parseTriviaSelect(subContent);
         case "start":
             return new TriviaStartCommand();
         case "stop":
             return new TriviaStopCommand();
         case "delete":
-            if (subContent == null || subContent.trim().isEmpty()) {
-                throw new JettVarkisException(JettVarkisException.ErrorType.MISSING_TASK_NUMBER);
-            }
-            if (subContent.contains("/c")) {
-                String categoryToDelete = subContent.replace("/c", "").trim();
-                if (categoryToDelete.isEmpty()) {
-                    throw new JettVarkisException(JettVarkisException.ErrorType.EMPTY_TRIVIA_CATEGORY_NAME);
-                }
-                return new TriviaDeleteCommand(categoryToDelete);
-            } else {
-                try {
-                    int index = Integer.parseInt(subContent.trim()) - 1;
-                    return new TriviaDeleteCommand(index);
-                } catch (NumberFormatException e) {
-                    throw new JettVarkisException(JettVarkisException.ErrorType.INVALID_TASK_NUMBER);
-                }
-            }
+            return parseTriviaDelete(subContent);
         case "create":
-            if (subContent == null || subContent.trim().isEmpty()) {
-                throw new JettVarkisException(JettVarkisException.ErrorType.EMPTY_TRIVIA_CATEGORY_NAME);
-            }
-            return new TriviaCreateCommand(subContent);
+            return parseTriviaCreate(subContent);
         case "help":
             return new TriviaHelpCommand();
         default:
             throw new JettVarkisException(JettVarkisException.ErrorType.UNKNOWN_COMMAND); // Or a more specific trivia
         }
+    }
+
+    private static TriviaListCommand parseTriviaList(String subContent) {
+        boolean shouldShowAll = subContent != null && subContent.trim().equals("/l");
+        return new TriviaListCommand(shouldShowAll);
+    }
+
+    private static TriviaAddCommand parseTriviaAdd(String subContent) throws JettVarkisException {
+        if (subContent == null || subContent.trim().isEmpty()) {
+            throw new JettVarkisException(JettVarkisException.ErrorType.UNKNOWN_COMMAND); // Or more specific
+        }
+        String[] triviaParts = subContent.split(" \\| ");
+        if (triviaParts.length < 2) {
+            throw new JettVarkisException(JettVarkisException.ErrorType.UNKNOWN_COMMAND); // Or more specific
+        }
+        return new TriviaAddCommand(triviaParts[0], triviaParts[1]);
+    }
+
+    private static TriviaSelectCommand parseTriviaSelect(String subContent) throws JettVarkisException {
+        if (subContent == null || subContent.trim().isEmpty()) {
+            throw new JettVarkisException(JettVarkisException.ErrorType.UNKNOWN_COMMAND); // Or more specific
+        }
+        return new TriviaSelectCommand(subContent);
+    }
+
+    private static TriviaDeleteCommand parseTriviaDelete(String subContent) throws JettVarkisException {
+        if (subContent == null || subContent.trim().isEmpty()) {
+            throw new JettVarkisException(JettVarkisException.ErrorType.MISSING_TASK_NUMBER);
+        }
+        if (subContent.contains("/c")) {
+            String categoryToDelete = subContent.replace("/c", "").trim();
+            if (categoryToDelete.isEmpty()) {
+                throw new JettVarkisException(JettVarkisException.ErrorType.EMPTY_TRIVIA_CATEGORY_NAME);
+            }
+            return new TriviaDeleteCommand(categoryToDelete);
+        } else {
+            try {
+                int index = Integer.parseInt(subContent.trim()) - 1;
+                return new TriviaDeleteCommand(index);
+            } catch (NumberFormatException e) {
+                throw new JettVarkisException(JettVarkisException.ErrorType.INVALID_TASK_NUMBER);
+            }
+        }
+    }
+
+    private static TriviaCreateCommand parseTriviaCreate(String subContent) throws JettVarkisException {
+        if (subContent == null || subContent.trim().isEmpty()) {
+            throw new JettVarkisException(JettVarkisException.ErrorType.EMPTY_TRIVIA_CATEGORY_NAME);
+        }
+        return new TriviaCreateCommand(subContent);
     }
 
     /**
@@ -334,35 +386,13 @@ public class Parser {
         Task task;
         switch (type) {
         case "T":
-            task = new Todo(description);
+            task = parseTodoFromFile(description);
             break;
         case "D":
-            if (parts.length < MIN_DEADLINE_PARTS) {
-                throw new JettVarkisException(JettVarkisException.ErrorType.CORRUPTED_DATA_ERROR);
-            }
-            String byString = parts[FILE_DEADLINE_BY_INDEX];
-            Optional<LocalDateTime> byDateTime = parseDateTimeSafely(byString);
-            if (byDateTime.isPresent()) {
-                task = new Deadline(description, byDateTime.get());
-            } else {
-                task = new Deadline(description, byString);
-            }
+            task = parseDeadlineFromFile(description, parts);
             break;
         case "E":
-            if (parts.length < MIN_EVENT_PARTS) {
-                throw new JettVarkisException(JettVarkisException.ErrorType.CORRUPTED_DATA_ERROR);
-            }
-            String fromString = parts[FILE_EVENT_FROM_INDEX];
-            String toString = parts[FILE_EVENT_TO_INDEX];
-
-            Optional<LocalDateTime> fromDateTime = parseDateTimeSafely(fromString);
-            Optional<LocalDateTime> toDateTime = parseDateTimeSafely(toString);
-
-            if (fromDateTime.isPresent() && toDateTime.isPresent()) {
-                task = new Event(description, fromDateTime.get(), toDateTime.get());
-            } else {
-                task = new Event(description, fromString, toString);
-            }
+            task = parseEventFromFile(description, parts);
             break;
         default:
             throw new JettVarkisException(JettVarkisException.ErrorType.CORRUPTED_DATA_ERROR);
@@ -372,6 +402,40 @@ public class Parser {
             task.markAsDone();
         }
         return task;
+    }
+
+    private static Task parseTodoFromFile(String description) {
+        return new Todo(description);
+    }
+
+    private static Task parseDeadlineFromFile(String description, String[] parts) throws JettVarkisException {
+        if (parts.length < MIN_DEADLINE_PARTS) {
+            throw new JettVarkisException(JettVarkisException.ErrorType.CORRUPTED_DATA_ERROR);
+        }
+        String byString = parts[FILE_DEADLINE_BY_INDEX];
+        Optional<LocalDateTime> byDateTime = parseDateTimeSafely(byString);
+        if (byDateTime.isPresent()) {
+            return new Deadline(description, byDateTime.get());
+        } else {
+            return new Deadline(description, byString);
+        }
+    }
+
+    private static Task parseEventFromFile(String description, String[] parts) throws JettVarkisException {
+        if (parts.length < MIN_EVENT_PARTS) {
+            throw new JettVarkisException(JettVarkisException.ErrorType.CORRUPTED_DATA_ERROR);
+        }
+        String fromString = parts[FILE_EVENT_FROM_INDEX];
+        String toString = parts[FILE_EVENT_TO_INDEX];
+
+        Optional<LocalDateTime> fromDateTime = parseDateTimeSafely(fromString);
+        Optional<LocalDateTime> toDateTime = parseDateTimeSafely(toString);
+
+        if (fromDateTime.isPresent() && toDateTime.isPresent()) {
+            return new Event(description, fromDateTime.get(), toDateTime.get());
+        } else {
+            return new Event(description, fromString, toString);
+        }
     }
 
     /**
