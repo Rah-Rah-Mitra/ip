@@ -52,6 +52,18 @@ public class Deadline extends Task {
         }
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (!super.equals(obj)) {
+            return false;
+        }
+        Deadline other = (Deadline) obj;
+        boolean byEquals = (by == null && other.by == null) || (by != null && by.equals(other.by));
+        boolean originalByEquals = (originalBy == null && other.originalBy == null)
+                || (originalBy != null && originalBy.equals(other.originalBy));
+        return byEquals && originalByEquals;
+    }
+
     /**
      * Returns a string representation of the Deadline task for saving to a file.
      *
