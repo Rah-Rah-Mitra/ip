@@ -59,7 +59,7 @@ public class Parser {
      */
     public static Command parse(String fullCommand) throws JettVarkisException {
         assert fullCommand != null;
-        String[] parts = fullCommand.split(" ", 2);
+        String[] parts = fullCommand.trim().split("\\s+", 2);
         String command = parts[0];
         String content = parts.length > 1 ? parts[1] : null;
 
@@ -107,11 +107,14 @@ public class Parser {
         if (content == null || content.trim().isEmpty()) {
             throw new JettVarkisException(JettVarkisException.ErrorType.MISSING_TASK_NUMBER);
         }
-        String[] indexStrings = content.split("\\s+");
+        String[] indexStrings = content.trim().split("\\s+");
         try {
             int[] taskIndices = Arrays.stream(indexStrings)
                     .mapToInt(s -> Integer.parseInt(s) - 1)
                     .toArray();
+            if (Arrays.stream(taskIndices).anyMatch(i -> i < 0)) {
+                throw new JettVarkisException(JettVarkisException.ErrorType.INVALID_TASK_NUMBER);
+            }
             return new MarkCommand(taskIndices);
         } catch (NumberFormatException e) {
             throw new JettVarkisException(JettVarkisException.ErrorType.INVALID_TASK_NUMBER);
@@ -131,11 +134,14 @@ public class Parser {
         if (content == null || content.trim().isEmpty()) {
             throw new JettVarkisException(JettVarkisException.ErrorType.MISSING_TASK_NUMBER);
         }
-        String[] indexStrings = content.split("\\s+");
+        String[] indexStrings = content.trim().split("\\s+");
         try {
             int[] taskIndices = Arrays.stream(indexStrings)
                     .mapToInt(s -> Integer.parseInt(s) - 1)
                     .toArray();
+            if (Arrays.stream(taskIndices).anyMatch(i -> i < 0)) {
+                throw new JettVarkisException(JettVarkisException.ErrorType.INVALID_TASK_NUMBER);
+            }
             return new UnmarkCommand(taskIndices);
         } catch (NumberFormatException e) {
             throw new JettVarkisException(JettVarkisException.ErrorType.INVALID_TASK_NUMBER);
@@ -173,12 +179,19 @@ public class Parser {
         if (content == null || content.trim().isEmpty()) {
             throw new JettVarkisException(JettVarkisException.ErrorType.EMPTY_DEADLINE_DESCRIPTION);
         }
-        String[] deadlineParts = content.split(" /by ");
+        String[] deadlineParts = content.split("\\s+/by\\s+", 2);
         if (deadlineParts.length < 2) {
             throw new JettVarkisException(JettVarkisException.ErrorType.EMPTY_DEADLINE_BY);
         }
+        if (content.split("\\s+/by\\s+").length > 2) {
+            throw new JettVarkisException(JettVarkisException.ErrorType.MULTIPLE_DEADLINE_BY);
+        }
         String description = deadlineParts[0];
         String by = deadlineParts[1];
+        return createDeadlineCommand(description, by);
+    }
+
+    private static DeadlineCommand createDeadlineCommand(String description, String by) {
         try {
             LocalDateTime byDateTime = parseDateTime(by);
             return new DeadlineCommand(description, byDateTime);
@@ -204,20 +217,36 @@ public class Parser {
         if (content == null || content.trim().isEmpty()) {
             throw new JettVarkisException(JettVarkisException.ErrorType.EMPTY_EVENT_DESCRIPTION);
         }
-        String[] eventParts = content.split(" /from ");
+        String[] eventParts = content.split("\\s+/from\\s+", 2);
         if (eventParts.length < 2) {
             throw new JettVarkisException(JettVarkisException.ErrorType.EMPTY_EVENT_FROM);
         }
-        String[] fromToParts = eventParts[1].split(" /to ");
+        if (content.split("\\s+/from\\s+").length > 2) {
+            throw new JettVarkisException(JettVarkisException.ErrorType.MULTIPLE_EVENT_FROM);
+        }
+
+        String[] fromToParts = eventParts[1].split("\\s+/to\\s+", 2);
         if (fromToParts.length < 2) {
             throw new JettVarkisException(JettVarkisException.ErrorType.EMPTY_EVENT_TO);
         }
+        if (eventParts[1].split("\\s+/to\\s+").length > 2) {
+            throw new JettVarkisException(JettVarkisException.ErrorType.MULTIPLE_EVENT_TO);
+        }
+
         String description = eventParts[0];
         String from = fromToParts[0];
         String to = fromToParts[1];
+        return createEventCommand(description, from, to);
+    }
+
+    private static EventCommand createEventCommand(String description, String from, String to)
+            throws JettVarkisException {
         try {
             LocalDateTime fromDateTime = parseDateTime(from);
             LocalDateTime toDateTime = parseDateTime(to);
+            if (fromDateTime.isAfter(toDateTime) || fromDateTime.isEqual(toDateTime)) {
+                throw new JettVarkisException(JettVarkisException.ErrorType.INVALID_EVENT_TIMES);
+            }
             return new EventCommand(description, fromDateTime, toDateTime);
         } catch (DateTimeParseException e) {
             boolean fromHasDigits = from.matches(".*\\d.*") && (from.contains("/") || from.contains("-"));
@@ -242,11 +271,14 @@ public class Parser {
         if (content == null || content.trim().isEmpty()) {
             throw new JettVarkisException(JettVarkisException.ErrorType.MISSING_TASK_NUMBER);
         }
-        String[] indexStrings = content.split("\\s+");
+        String[] indexStrings = content.trim().split("\\s+");
         try {
             int[] taskIndices = Arrays.stream(indexStrings)
                     .mapToInt(s -> Integer.parseInt(s) - 1)
                     .toArray();
+            if (Arrays.stream(taskIndices).anyMatch(i -> i < 0)) {
+                throw new JettVarkisException(JettVarkisException.ErrorType.INVALID_TASK_NUMBER);
+            }
             return new DeleteCommand(taskIndices);
         } catch (NumberFormatException e) {
             throw new JettVarkisException(JettVarkisException.ErrorType.INVALID_TASK_NUMBER);
