@@ -21,14 +21,17 @@ public class Ui {
      * @return The welcome message string.
      */
     public String getWelcomeMessage() {
-        return "Jett Varkis at your service. What can I get for you?";
+        return "Ah, another soul seeking organization in this fleeting existence. "
+                + "I am Jett Varkis, keeper of tasks and memories. "
+                + "What burdens shall we catalog today?";
     }
 
     /**
      * Displays a goodbye message to the user.
      */
     public void showGoodbye() {
-        System.out.println("Leaving so soon? See you next time.");
+        System.out.println("Time flows onward, as it always does. Until our paths cross again in this endless journey, "
+                + "may your tasks be completed and your memories be cherished. Farewell for now.");
     }
 
     /**
@@ -42,9 +45,10 @@ public class Ui {
     public void showAddedTask(Task task, int taskCount) {
         assert task != null;
         assert taskCount >= 0 : "Task count cannot be negative";
-        System.out.println("Got it. I've added this task:");
+        System.out.println("Another entry inscribed in the grimoire of existence:");
         System.out.println("  " + task);
-        System.out.println("Now you have " + taskCount + " tasks in the list.");
+        System.out.println("Your collection of mortal endeavors now contains " + taskCount + " items. "
+                + "How quickly they accumulate...");
     }
 
     /**
@@ -55,7 +59,7 @@ public class Ui {
      */
     public void showTasks(ArrayList<Task> tasks) {
         assert tasks != null;
-        System.out.println("Here are the tasks in your list:");
+        System.out.println("Behold, the chronicles of your endeavors, preserved through time:");
         IntStream.range(0, tasks.size())
                 .forEach(i -> {
                     assert tasks.get(i) != null : "Task at index " + i + " is null";
@@ -71,8 +75,9 @@ public class Ui {
      */
     public void showMarkedTasks(List<Task> markedTasks) {
         assert markedTasks != null;
-        System.out.println("Nice! I've marked the following tasks as done:");
+        System.out.println("Excellent. These chapters of your story reach their conclusion:");
         markedTasks.forEach(task -> System.out.println("  " + task));
+        System.out.println("Another small victory against the passage of time.");
     }
 
     /**
@@ -83,8 +88,9 @@ public class Ui {
      */
     public void showUnmarkedTasks(List<Task> unmarkedTasks) {
         assert unmarkedTasks != null;
-        System.out.println("OK, I've marked the following tasks as not done yet:");
+        System.out.println("Ah, it seems these tales require more time to unfold:");
         unmarkedTasks.forEach(task -> System.out.println("  " + task));
+        System.out.println("Sometimes, the journey takes longer than expected. This I understand well.");
     }
 
     /**
@@ -98,9 +104,10 @@ public class Ui {
     public void showDeletedTasks(List<Task> deletedTasks, int taskCount) {
         assert deletedTasks != null;
         assert taskCount >= 0 : "Task count cannot be negative";
-        System.out.println("Noted. I've removed the following tasks:");
+        System.out.println("These memories fade back into the void, as all things eventually do:");
         deletedTasks.forEach(task -> System.out.println("  " + task));
-        System.out.println("Now you have " + taskCount + " tasks in the list.");
+        System.out.println("Your grimoire now holds " + taskCount + " remaining endeavors. "
+                + "Perhaps it's for the best - some burdens are meant to be released.");
     }
 
     /**
@@ -111,7 +118,7 @@ public class Ui {
      */
     public void showError(String message) {
         assert message != null;
-        System.out.println("    OOPS!!! " + message);
+        System.out.println("    *sigh* Even after all these centuries... " + message);
     }
 
     /**
@@ -123,9 +130,10 @@ public class Ui {
     public void showFoundTasks(List<Task> tasks) {
         assert tasks != null;
         if (tasks.isEmpty()) {
-            System.out.println("No matching tasks found in your list: Jett Varkis is sad.");
+            System.out.println("The mists of time have obscured such memories from your collection. "
+                    + "Even I, with my long years, sometimes forget where I placed things...");
         } else {
-            System.out.println("Here are the matching tasks in your list:");
+            System.out.println("Ah, these fragments of memory surface from the depths of your grimoire:");
             IntStream.range(0, tasks.size())
                     .forEach(i -> System.out.println("  " + (i + 1) + "." + tasks.get(i)));
         }
@@ -140,9 +148,9 @@ public class Ui {
     public void showTriviaCategories(List<String> categories) {
         assert categories != null;
         if (categories.isEmpty()) {
-            System.out.println("No trivia categories found.");
+            System.out.println("The archives appear empty... In time, knowledge will accumulate here.");
         } else {
-            System.out.println("Here are the available trivia categories:");
+            System.out.println("These are the realms of knowledge preserved in the archives:");
             for (String category : categories) {
                 System.out.println("- " + category);
             }
@@ -159,9 +167,10 @@ public class Ui {
      */
     public void showTriviaAdded(Trivia trivia, String category, int triviaCount) {
         assert trivia != null;
-        System.out.println("Got it. I've added this trivia to the '" + category + "' category:");
+        System.out.println("Another fragment of wisdom has been preserved in the '" + category + "' archives:");
         System.out.println("  " + trivia);
-        System.out.println("Now you have " + triviaCount + " trivia items in the '" + category + "' category.");
+        System.out.println("The collection now holds " + triviaCount + " pieces of knowledge. "
+                + "Slowly, understanding accumulates across the centuries.");
     }
 
     /**
@@ -171,7 +180,9 @@ public class Ui {
      *            The selected category.
      */
     public void showTriviaCategorySelected(String category, int triviaCount) {
-        System.out.println("Trivia category '" + category + "' selected. It has " + triviaCount + " trivia items.");
+        System.out.println("Your focus now rests upon the '" + category + "' archive, "
+                + "which contains " + triviaCount + " fragments of ancient wisdom. "
+                + "Knowledge awaits your contemplation.");
     }
 
     /**
@@ -181,14 +192,16 @@ public class Ui {
      *            The category of the quiz.
      */
     public void showTriviaStart(String category) {
-        System.out.println("Starting quiz for category '" + category + "'!");
+        System.out.println("The trial of wisdom begins for the '" + category + "' archive! "
+                + "Let us see what knowledge time has preserved in your memory...");
     }
 
     /**
      * Displays a message indicating the end of a trivia quiz.
      */
     public void showTriviaStop() {
-        System.out.println("Trivia quiz stopped.");
+        System.out.println("The trial concludes. Knowledge tested, understanding measured. "
+                + "Until curiosity stirs again, rest well.");
     }
 
     /**
@@ -201,9 +214,10 @@ public class Ui {
      */
     public void showTriviaDeleted(Trivia trivia, String category, int triviaCount) {
         assert trivia != null;
-        System.out.println("Noted. I've removed the following trivia from the '" + category + "' category:");
+        System.out.println("This knowledge fades from the '" + category + "' archive, returning to silence:");
         System.out.println("  " + trivia);
-        System.out.println("Now you have " + triviaCount + " trivia items in the '" + category + "' category.");
+        System.out.println("The archive now preserves " + triviaCount + " remaining fragments. "
+                + "Some wisdom, it seems, was not meant to endure.");
     }
 
     /**
@@ -214,14 +228,14 @@ public class Ui {
      */
     public void showTriviaQuestion(Trivia trivia) {
         assert trivia != null;
-        System.out.println("Question: " + trivia.getQuestion());
+        System.out.println("From the depths of memory, a query emerges: " + trivia.getQuestion());
     }
 
     /**
      * Displays a message for a correct answer.
      */
     public void showCorrectAnswer() {
-        System.out.println("Correct!");
+        System.out.println("Indeed, your memory serves you well. Time has not dulled this knowledge.");
     }
 
     /**
@@ -231,7 +245,8 @@ public class Ui {
      *            The correct answer.
      */
     public void showIncorrectAnswer(String correctAnswer) {
-        System.out.println("Incorrect. The correct answer is: " + correctAnswer);
+        System.out.println("Alas, even the sharpest minds occasionally stumble. "
+                + "The answer dwells in: " + correctAnswer + ". Fear not, for learning is eternal.");
     }
 
     /**
@@ -244,9 +259,9 @@ public class Ui {
      */
     public void showTriviaList(TriviaList triviaList, String category) {
         assert triviaList != null;
-        System.out.println("Here are the trivia items in the '" + category + "' category:");
+        System.out.println("Behold, the accumulated wisdom within the '" + category + "' archive:");
         if (triviaList.size() == 0) {
-            System.out.println("  No trivia items in this category.");
+            System.out.println("  This archive rests empty, awaiting the patient accumulation of knowledge.");
         } else {
             IntStream.range(0, triviaList.size())
                     .forEach(i -> System.out.println("  " + (i + 1) + "." + triviaList.get(i)));
@@ -260,7 +275,8 @@ public class Ui {
      *            The name of the created category.
      */
     public void showTriviaCategoryCreated(String categoryName) {
-        System.out.println("Trivia category '" + categoryName + "' created.");
+        System.out.println("A new realm of knowledge '" + categoryName + "' has been manifested. "
+                + "In time, wisdom shall fill this empty vessel.");
     }
 
     /**
@@ -269,41 +285,42 @@ public class Ui {
      * @param categoryName The name of the deleted category.
      */
     public void showTriviaCategoryDeleted(String categoryName) {
-        System.out.println("Trivia category '" + categoryName + "' deleted.");
+        System.out.println("The '" + categoryName + "' archive dissolves into the void, "
+                + "its knowledge released back to the eternal silence. Such is the way of all things.");
     }
 
     /**
      * Displays a summary of all trivia commands and their functions.
      */
     public void showTriviaHelp() {
-        System.out.println("Here are the available trivia commands:");
-        System.out.println("  trivia list - Displays all available trivia categories.");
-        System.out.println("    Use 'trivia list /l' to list all questions in the current category.");
-        System.out.println("  trivia add <question> | <answer> - Adds a new trivia question to the current category.");
-        System.out.println("  trivia select <category_name> - Selects a specific trivia category to work with.");
-        System.out.println("  trivia start - Starts a trivia quiz session.");
-        System.out.println("  trivia stop - Stops the current trivia quiz session.");
-        System.out.println("  trivia delete <index> - Deletes a trivia question from the current category.");
-        System.out.println("  trivia delete /c <category_name> - Deletes a trivia category.");
-        System.out.println("  trivia create <category_name> - Creates a new, empty trivia category.");
-        System.out.println("  trivia help - Displays this help message.");
+        System.out.println("The ancient archives of knowledge await your exploration:");
+        System.out.println("  trivia list - Unveils all repositories of wisdom in the collection.");
+        System.out.println("    Use 'trivia list /l' to examine all queries within the current archive.");
+        System.out.println("  trivia add <question> | <answer> - Inscribes new knowledge into the current archive.");
+        System.out.println("  trivia select <category_name> - Focuses your attention on a specific knowledge realm.");
+        System.out.println("  trivia start - Begins a trial of memory and wisdom.");
+        System.out.println("  trivia stop - Concludes the trial, returning to peaceful contemplation.");
+        System.out.println("  trivia delete <index> - Allows knowledge to fade from the current archive.");
+        System.out.println("  trivia delete /c <category_name> - Dissolves an entire realm of knowledge.");
+        System.out.println("  trivia create <category_name> - Manifests a new, empty archive of wisdom.");
+        System.out.println("  trivia help - Reveals these mystical instructions once more.");
     }
 
     /**
      * Displays a summary of all general commands and their functions.
      */
     public void showGeneralHelp() {
-        System.out.println("Here are the available commands:");
-        System.out.println("  list - Lists all tasks.");
-        System.out.println("  todo <description> - Adds a new todo task.");
-        System.out.println("  deadline <description> /by <datetime> - Adds a new deadline task.");
-        System.out.println("  event <description> /from <datetime> /to <datetime> - Adds a new event task.");
-        System.out.println("  mark <task_number> - Marks a task as done.");
-        System.out.println("  unmark <task_number> - Marks a task as not done.");
-        System.out.println("  delete <task_number> - Deletes a task.");
-        System.out.println("  find <keyword> - Finds tasks containing the keyword.");
-        System.out.println("  trivia <subcommand> - Accesses trivia commands (e.g., 'trivia help').");
-        System.out.println("  bye - Exits the application.");
-        System.out.println("  help - Displays this help message.");
+        System.out.println("Behold, the ancient incantations for managing your mortal endeavors:");
+        System.out.println("  list - Reveals all chronicles within your grimoire.");
+        System.out.println("  todo <description> - Inscribes a simple task into the tome of time.");
+        System.out.println("  deadline <description> /by <datetime> - Binds a task to temporal flow.");
+        System.out.println("  event <description> /from <datetime> /to <datetime> - Records a moment in time.");
+        System.out.println("  mark <task_number> - Seals a task as completed, preserving its memory.");
+        System.out.println("  unmark <task_number> - Reopens a sealed task, for time allows revisions.");
+        System.out.println("  delete <task_number> - Releases a task back to the void.");
+        System.out.println("  find <keyword> - Searches the depths of memory for forgotten traces.");
+        System.out.println("  trivia <subcommand> - Accesses the ancient knowledge archives (try 'trivia help').");
+        System.out.println("  bye - Concludes our session, until time brings us together again.");
+        System.out.println("  help - Displays these mystical instructions once more.");
     }
 }
