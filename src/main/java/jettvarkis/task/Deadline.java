@@ -2,6 +2,7 @@ package jettvarkis.task;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 /**
  * Represents a Deadline task. A Deadline task has a description and a due date/time.
@@ -45,8 +46,8 @@ public class Deadline extends Task {
     @Override
     public String toString() {
         if (by != null) {
-            return "[D]" + super.toString() + " (by: " + by.format(DateTimeFormatter.ofPattern("MMM dd yyyy, h:mma"))
-                    + ")";
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy, h:mma", Locale.US);
+            return "[D]" + super.toString() + " (by: " + by.format(formatter) + ")";
         } else {
             return "[D]" + super.toString() + " (by: " + originalBy + ")";
         }
