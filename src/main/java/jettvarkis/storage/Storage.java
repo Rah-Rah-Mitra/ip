@@ -3,6 +3,7 @@ package jettvarkis.storage;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -62,7 +63,7 @@ public class Storage {
             throw new JettVarkisException(JettVarkisException.ErrorType.FILE_READ_DENIED);
         }
 
-        try (Scanner scanner = new Scanner(file)) {
+        try (Scanner scanner = new Scanner(file, StandardCharsets.UTF_8)) {
             while (scanner.hasNext()) {
                 String line = scanner.nextLine();
                 tasks.add(Parser.parseFileLine(line));
@@ -97,7 +98,7 @@ public class Storage {
             throw new JettVarkisException(JettVarkisException.ErrorType.FILE_WRITE_DENIED);
         }
 
-        try (FileWriter writer = new FileWriter(filePath)) {
+        try (FileWriter writer = new FileWriter(filePath, StandardCharsets.UTF_8)) {
             for (Task task : tasks) {
                 assert task.toFileString() != null : "Task file string cannot be null";
                 writer.write(task.toFileString() + System.lineSeparator());
@@ -130,7 +131,7 @@ public class Storage {
             return new TriviaList(triviaItems);
         }
 
-        try (Scanner scanner = new Scanner(file)) {
+        try (Scanner scanner = new Scanner(file, StandardCharsets.UTF_8)) {
             while (scanner.hasNext()) {
                 String line = scanner.nextLine();
                 String[] parts = line.split(" \\| ");
@@ -157,7 +158,7 @@ public class Storage {
      */
     public void saveTrivia(String category, TriviaList triviaList) throws JettVarkisException {
         File file = new File("data/trivia/" + category + ".txt");
-        try (FileWriter writer = new FileWriter(file)) {
+        try (FileWriter writer = new FileWriter(file, StandardCharsets.UTF_8)) {
             for (Trivia trivia : triviaList.getAllTrivia()) {
                 writer.write(trivia.toFileFormat() + System.lineSeparator());
             }
