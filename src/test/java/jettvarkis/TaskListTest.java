@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
+import jettvarkis.exception.JettVarkisException;
 import jettvarkis.task.Deadline;
 import jettvarkis.task.Event;
 import jettvarkis.task.Task;
@@ -15,7 +16,7 @@ import jettvarkis.task.Task;
 public class TaskListTest {
 
     @Test
-    public void testAddTodo() {
+    public void testAddTodo() throws JettVarkisException {
         TaskList taskList = new TaskList();
         taskList.addTodo("read book");
         assertEquals(1, taskList.getTaskCount());
@@ -23,7 +24,7 @@ public class TaskListTest {
     }
 
     @Test
-    public void testAddDeadline() {
+    public void testAddDeadline() throws JettVarkisException {
         TaskList taskList = new TaskList();
         taskList.addDeadline("return book", "2025-08-27");
         assertEquals(1, taskList.getTaskCount());
@@ -32,7 +33,7 @@ public class TaskListTest {
     }
 
     @Test
-    public void testAddEvent() {
+    public void testAddEvent() throws JettVarkisException {
         TaskList taskList = new TaskList();
         taskList.addEvent("project meeting", "2025-08-27 1400", "2025-08-27 1600");
         assertEquals(1, taskList.getTaskCount());
@@ -42,7 +43,7 @@ public class TaskListTest {
     }
 
     @Test
-    public void testGetTask() {
+    public void testGetTask() throws JettVarkisException {
         TaskList taskList = new TaskList();
         taskList.addTodo("test task");
         Optional<Task> task = taskList.getTask(0);
@@ -54,7 +55,7 @@ public class TaskListTest {
     }
 
     @Test
-    public void testDeleteTask() {
+    public void testDeleteTask() throws JettVarkisException {
         TaskList taskList = new TaskList();
         taskList.addTodo("task to delete");
         Task deletedTask = taskList.deleteTask(0);
@@ -63,7 +64,7 @@ public class TaskListTest {
     }
 
     @Test
-    public void testGetTaskCount() {
+    public void testGetTaskCount() throws JettVarkisException {
         TaskList taskList = new TaskList();
         assertEquals(0, taskList.getTaskCount());
         taskList.addTodo("task1");
