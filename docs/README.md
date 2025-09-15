@@ -2,6 +2,8 @@
 
 _"Ah, another soul seeking organization in this fleeting existence. I am Jett Varkis, keeper of tasks and memories."_'
 
+![Jett Varkis Screenshot](Ui.png)
+
 Welcome to the user guide for Jett Varkis, your personal assistant for managing tasks and exploring knowledge.
 
 ## Commands
