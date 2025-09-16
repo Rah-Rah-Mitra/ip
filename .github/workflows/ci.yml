@@ -38,4 +38,4 @@ jobs:
 
       - name: Build with Gradle (Windows)
         if: runner.os == 'Windows'
-        run: gradlew.bat --no-daemon build
+        run: .\gradlew.bat --no-daemon build
