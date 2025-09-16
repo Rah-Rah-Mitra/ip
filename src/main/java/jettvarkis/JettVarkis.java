@@ -65,21 +65,9 @@ public class JettVarkis {
             System.setOut(ps);
 
             if (isQuizMode) {
-                // Handle quiz answers
-                if (input.equalsIgnoreCase("trivia stop")) {
-                    setQuizMode(false);
-                    setCurrentQuizTrivia(null);
-                    ui.showTriviaStop();
-                } else if (currentQuizTrivia != null) {
-                    checkAnswer(input);
-                    if (isQuizMode) { // if not stopped
-                        askNextQuestion();
-                    }
-                }
+                handleQuizMode(input);
             } else {
-                Command c = Parser.parse(input);
-                assert c != null : "Parsed command cannot be null";
-                c.execute(ui, tasks, storage, this); // Pass this JettVarkis instance
+                handleCommandMode(input);
             }
 
             System.out.flush();
@@ -87,6 +75,26 @@ public class JettVarkis {
             return baos.toString();
         } catch (JettVarkisException e) {
             return e.getMessage();
+        }
+    }
+
+    private void handleCommandMode(String input) throws JettVarkisException {
+        Command c = Parser.parse(input);
+        assert c != null : "Parsed command cannot be null";
+        c.execute(ui, tasks, storage, this); // Pass this JettVarkis instance
+    }
+
+    private void handleQuizMode(String input) {
+        // Handle quiz answers
+        if (input.equalsIgnoreCase("trivia stop")) {
+            setQuizMode(false);
+            setCurrentQuizTrivia(null);
+            ui.showTriviaStop();
+        } else if (currentQuizTrivia != null) {
+            checkAnswer(input);
+            if (isQuizMode) { // if not stopped
+                askNextQuestion();
+            }
         }
     }
 
@@ -112,9 +120,9 @@ public class JettVarkis {
         }
     }
 
-
     /**
      * Returns the welcome message for the application.
+     *
      * @return The welcome message string.
      */
     public String getWelcomeMessage() {
@@ -139,6 +147,7 @@ public class JettVarkis {
 
     /**
      * Gets the Storage object.
+     *
      * @return The Storage object.
      */
     public Storage getStorage() {
