@@ -25,7 +25,7 @@ public class Storage {
      * Constructs a new Storage object with the specified file path.
      *
      * @param filePath
-     *            The path to the file where tasks will be stored.
+     *                 The path to the file where tasks will be stored.
      */
     public Storage(String filePath) {
         assert filePath != null && !filePath.trim().isEmpty();
@@ -38,8 +38,9 @@ public class Storage {
      *
      * @return An ArrayList of tasks loaded from the file.
      * @throws JettVarkisException
-     *             If there is an error reading from the file or the data is
-     *             corrupted.
+     *                             If there is an error reading from the file or the
+     *                             data is
+     *                             corrupted.
      */
     public ArrayList<Task> load() throws JettVarkisException {
         ArrayList<Task> tasks = new ArrayList<>();
@@ -82,9 +83,9 @@ public class Storage {
      * Saves the given list of tasks to the storage file.
      *
      * @param tasks
-     *            The ArrayList of tasks to be saved.
+     *              The ArrayList of tasks to be saved.
      * @throws JettVarkisException
-     *             If there is an error writing to the file.
+     *                             If there is an error writing to the file.
      */
     public void save(ArrayList<Task> tasks) throws JettVarkisException {
         assert tasks != null;
@@ -98,7 +99,13 @@ public class Storage {
             throw new JettVarkisException(JettVarkisException.ErrorType.FILE_WRITE_DENIED);
         }
 
-        try (FileWriter writer = new FileWriter(filePath, StandardCharsets.UTF_8)) {
+        // Ensure parent directories exist (e.g., /tmp on Windows agents)
+        File parent = file.getParentFile();
+        if (parent != null && !parent.exists()) {
+            parent.mkdirs();
+        }
+
+        try (FileWriter writer = new FileWriter(file, StandardCharsets.UTF_8)) {
             for (Task task : tasks) {
                 assert task.toFileString() != null : "Task file string cannot be null";
                 writer.write(task.toFileString() + System.lineSeparator());
@@ -112,10 +119,10 @@ public class Storage {
      * Loads a trivia list from a specific category file.
      *
      * @param category
-     *            The name of the trivia category (and file).
+     *                 The name of the trivia category (and file).
      * @return A TriviaList object.
      * @throws JettVarkisException
-     *             If there is an error reading the file.
+     *                             If there is an error reading the file.
      */
     public TriviaList loadTrivia(String category) throws JettVarkisException {
         List<Trivia> triviaItems = new ArrayList<>();
@@ -150,11 +157,11 @@ public class Storage {
      * Saves a trivia list to a specific category file.
      *
      * @param category
-     *            The name of the trivia category.
+     *                   The name of the trivia category.
      * @param triviaList
-     *            The list of trivia to save.
+     *                   The list of trivia to save.
      * @throws JettVarkisException
-     *             If there is an error writing to the file.
+     *                             If there is an error writing to the file.
      */
     public void saveTrivia(String category, TriviaList triviaList) throws JettVarkisException {
         File file = new File("data/trivia/" + category + ".txt");
@@ -190,9 +197,9 @@ public class Storage {
      * Creates a new, empty trivia category file.
      *
      * @param categoryName
-     *            The name of the category to create.
+     *                     The name of the category to create.
      * @throws JettVarkisException
-     *             If an error occurs during file creation.
+     *                             If an error occurs during file creation.
      */
     public void createTriviaCategory(String categoryName) throws JettVarkisException {
         File file = new File("data/trivia/" + categoryName + ".txt");

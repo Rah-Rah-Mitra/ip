@@ -45,6 +45,17 @@ test {
         showStackTraces true
         showStandardStreams = false
     }
+
+    systemProperty 'file.encoding', 'UTF-8'
+}
+
+// Ensure source and test compilation uses UTF-8 across platforms
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
+
+// Ensure Javadoc uses UTF-8 (if/when generated)
+tasks.withType(Javadoc).configureEach {
+    options.encoding = 'UTF-8'
+    options.charSet = 'UTF-8'
 }
 
 application {

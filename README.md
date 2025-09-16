@@ -58,7 +58,8 @@ This method is for developers who want to view or modify the source code.
 
 ## Image Credits
 
-|                             Preview                             |  Image Name  |               Artist               |                          Source                          |
-| :-------------------------------------------------------------: | :----------: | :--------------------------------: | :------------------------------------------------------: |
-|  <img src="src/main/resources/images/JettUser.jpg" width="50">  |  `JettUser`  | [@dodobo\_](https://x.com/dodobo_) | [Link](https://x.com/dodobo_/status/1935166459669365012) |
-| <img src="src/main/resources/images/JettVarkis.jpg" width="50"> | `JettVarkis` | [@dodobo\_](https://x.com/dodobo_) | [Link](https://x.com/dodobo_/status/1924309603904311754) |
+|                             Preview                             |  Image Name  |               Artist               |                                      Source                                       |
+| :-------------------------------------------------------------: | :----------: | :--------------------------------: | :-------------------------------------------------------------------------------: |
+|  <img src="src/main/resources/images/JettUser.jpg" width="50">  |  `JettUser`  | [@dodobo\_](https://x.com/dodobo_) |             [Link](https://x.com/dodobo_/status/1935166459669365012)              |
+| <img src="src/main/resources/images/JettVarkis.jpg" width="50"> | `JettVarkis` | [@dodobo\_](https://x.com/dodobo_) |             [Link](https://x.com/dodobo_/status/1924309603904311754)              |
+|  <img src="src/main/resources/images/JettIcon.png" width="50">  |  `JettIcon`  |             Icon-Icons             | [Link](https://icon-icons.com/icon/location-map-adventure-viking-treasure/265665) |
