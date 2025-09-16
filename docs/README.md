@@ -15,7 +15,7 @@ Jett Varkis understands a variety of commands to help you manage your tasks and 
 | Command | Format | Description                                | Example |
 | ------- | ------ | ------------------------------------------ | ------- |
 | `help`  | `help` | Displays a list of all available commands. | `help`  |
-| `bye`   | `bye`  | Exits the application.                     | `bye`   |
+| `bye`   | `bye`  | Gives a farewell message.                  | `bye`   |
 
 ### Task Management
 
